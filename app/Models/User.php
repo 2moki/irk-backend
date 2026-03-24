@@ -7,6 +7,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Gender;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\HasName;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +30,7 @@ use Laravel\Sanctum\HasApiTokens;
     'gender',
 ])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements HasName
 {
     use HasApiTokens;
     /** @use HasFactory<UserFactory> */
@@ -46,5 +47,10 @@ class User extends Authenticatable
             'password' => 'hashed',
             'gender' => Gender::class,
         ];
+    }
+
+    public function getFilamentName(): string
+    {
+        return "$this->first_name $this->last_name";
     }
 }
