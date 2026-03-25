@@ -44,6 +44,11 @@ docker run --rm \
     composer install --ignore-platform-reqs
 ```
 
+Jeśli w systemie jest zainstalowane PHP oraz Composer, użycie poniższej komendy powinno być wystarczające. Niemniej nawet mając zainstalowany PHP oraz Composer, powyższe rozwiązanie także zadziała. W przypadku użycia powyższej komendy docker, pominąć poniższą.
+```bash
+composer install
+```
+
 **4. Uruchomienie aplikacji**
 
 ```bash
@@ -61,7 +66,7 @@ docker run --rm \
 Aby nie wpisywać za każdym razem pełnej ścieżki `./vendor/bin/sail`, warto dodać alias.
 
 **Dla WSL2 (bash / zsh):**
-Należy dodać poniższą linię do pliku `~/.bashrc` lub `~/.zshrc`:
+Należy dodać poniższą linię do pliku `~/.bashrc` lub `~/.zshrc` (np. `nano ~/.bashrc`):
 ```bash
 alias sail="./vendor/bin/sail"
 ```
@@ -183,6 +188,8 @@ MAIL_MAILER=smtp
 MAIL_HOST=mailpit  
 MAIL_PORT=1025
 ```
+
+![Mailpit](https://i.imgur.com/u4t7jsW.png)
 
 ## Zabezpieczenie Model::shouldBeStrict()
 
