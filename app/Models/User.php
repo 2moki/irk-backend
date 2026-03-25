@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 #[Fillable([
     'first_name',
@@ -35,8 +36,14 @@ class User extends Authenticatable implements HasName
     use HasApiTokens;
     /** @use HasFactory<UserFactory> */
     use HasFactory;
+    use HasRoles;
     use Notifiable;
     use SoftDeletes;
+
+    public function getFilamentName(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 
     /** @return array<string, string> */
     protected function casts(): array
@@ -47,10 +54,5 @@ class User extends Authenticatable implements HasName
             'password' => 'hashed',
             'gender' => Gender::class,
         ];
-    }
-
-    public function getFilamentName(): string
-    {
-        return "$this->first_name $this->last_name";
     }
 }
