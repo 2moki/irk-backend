@@ -141,6 +141,66 @@ W związku z tym, każda wersja API posiada własne zestawy klas w następujący
 **3. Resources: `app/Http/Resources/V1/`**
 - Sposób transformacji danych (Eloquent -> JSON). Pozwala to na swobodne zmienianie nazw kluczy w JSONie lub dodawanie nowych pól bez ryzyka błędu.
 
+## Dokumentacja API (Scramble)
+
+W projekcie zainstalowane jest Scramble - narzędzie, które automatycznie generuje dokumentację API (OpenAPI/Swagger) na podstawie kodu. Nie trzeba ręcznie pisać plików JSON czy YAML - Scramble sam analizuje trasy, kontrolery i requesty. Dodatkowo w panelu wyświetla wszystkie reguły walidacji poszczególnych pól.
+
+- Dostęp: http://localhost/docs/api
+- Więcej informacji: https://scramble.dedoc.co
+
+![Scramble](https://i.imgur.com/8WkLebB.png)
+
+#### Ważne: Obsługa filtrów (Spatie QueryBuilder)
+
+Darmowa wersja Scramble ma jedno małe ograniczenie: nie wykrywa automatycznie filtrów i sortowania z paczki Spatie QueryBuilder.
+
+Aby rozwiązać ten problem, trzeba je ręcznie opisać w kontrolerze za pomocą atrybutu `#[QueryParameter]`. Dzięki temu pojawią się one jako pola do wpisania w interfejsie dokumentacji.
+
+Przykład użycia w kontrolerze:
+```php
+use Dedoc\Scramble\Attributes\QueryParameter;
+
+// ...
+
+#[QueryParameter('filter[name]', description: 'Filtruj po nazwie', type: 'string')]
+#[QueryParameter('sort', description: 'Sortowanie (np. -created_at)', type: 'string')]
+public function index()
+{
+    return UserResource::collection(
+        QueryBuilder::for(User::class)
+            ->allowedFilters(['name'])
+            ->allowedSorts(['created_at'])
+            ->get()
+    );
+}
+```
+
+## Filtrowanie i Sortowanie (Spatie QueryBuilder)
+
+Aby nie pisać ręcznie dziesiątek warunków `if ($request->has('filter'))` w każdym kontrolerze, zainstalowana została paczka Spatie QueryBuilder. Pozwala ona na błyskawiczne budowanie zapytań SQL bezpośrednio z parametrów w adresie URL.
+
+#### Po co to jest?
+
+Zamiast tworzyć osobne endpointy dla różnych widoków, wystarczy jeden, który obsłuży:
+- Filtrowanie: `?filter[name]=Jan`
+- Sortowanie: `?sort=-created_at` (minus oznacza malejąco)
+- Dołączanie relacji (Eager Loading): `?include=posts,profile`
+- Więcej informacji: https://spatie.be/docs/laravel-query-builder/v7/introduction
+
+Przykład:
+W kontrolerze definiuje się tylko to, na co pozwolono użytkownikowi. Jeśli czegoś nie ma na liście `allowed`, QueryBuilder to zignoruje.
+
+```php
+public function index()
+{
+    return QueryBuilder::for(User::class)
+        ->allowedFilters(['name', 'email', 'status']) // Zezwolone filtry
+        ->allowedSorts(['id', 'created_at']) // Zezwolone sortowanie
+        ->allowedIncludes(['posts']) // Zezwolone relacje do dołączenia
+        ->get();
+}
+```
+
 ## Jakość kodu
 
 W celu zwiększenia jakości i spójności kodu, w projekcie zainstalowane są dwa narzędzia:
