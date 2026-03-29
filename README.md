@@ -215,6 +215,10 @@ public function index()
 }
 ```
 
+## Panel administratora (FilamentPHP)
+
+Panel admina znajduje się pod adresem `/admin` (np. http://localhost/admin).
+
 ## Jakość kodu
 
 W celu zwiększenia jakości i spójności kodu, w projekcie zainstalowane są dwa narzędzia:
