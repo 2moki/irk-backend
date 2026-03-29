@@ -88,7 +88,7 @@ return [
     |
     */
 
-    'prefix' => '',
+    'prefix' => 'api/auth',
 
     'domain' => null,
 
