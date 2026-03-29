@@ -175,6 +175,20 @@ public function index()
 }
 ```
 
+## Autoryzacja i testowanie API (Środowisko lokalne)
+
+Dostęp do chronionych zasobów API w celach testowych został zintegrowany z mechanizmem sesji oraz tokenów Bearer. Wybór metody zależy od używanego narzędzia:
+
+- W celu wysłania zapytania logującego należy wywołać endpoint `POST /api/v1/dev-token`. W interfejsie Scramble należy przejść do `AuthToken -> dev-token`. Dane są uzupełnione domyślnie, więc wystarczy użyć przycisku **Send API Request**.
+- W celu korzystania z dokumentacji Scramble nie trzeba ręcznie kopiować tokena do pola "Token" w oknie "Auth". Dzięki mechanizmowi `Auth::attempt` przeglądarka automatycznie zarządza sesją (Cookie), co pozwala na natychmiastowe testowanie chronionych zasobów bez dodatkowej konfiguracji.
+- W celu konfiguracji narzędzi zewnętrznych (Postman / Yaak) należy skopiować token z otrzymanej odpowiedzi JSON i ustawić go ręcznie w nagłówku jako `Authorization: Bearer <token>`.
+
+#### Ważna uwaga dotycząca SPA (Vue.js)
+
+Uwierzytelnianie oparte na tokenach Bearer jest wykorzystywane tylko do testów manualnych. Aplikacja frontendowa (Vue.js) korzysta z domyślnego mechanizmu sesji i ciastek dostarczanego przez Laravel Sanctum. Podczas pracy z SPA nie ma potrzeby ręcznego generowania ani przesyłania tokenów w nagłówkach.
+
+![AuthToken](https://i.imgur.com/ca4ANMh.png)
+
 ## Filtrowanie i Sortowanie (Spatie QueryBuilder)
 
 Aby nie pisać ręcznie dziesiątek warunków `if ($request->has('filter'))` w każdym kontrolerze, zainstalowana została paczka Spatie QueryBuilder. Pozwala ona na błyskawiczne budowanie zapytań SQL bezpośrednio z parametrów w adresie URL.
