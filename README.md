@@ -73,6 +73,8 @@ alias sail="./vendor/bin/sail"
 
 Po dodaniu należy przeładować terminal komendą `source ~/.bashrc`. Od tej pory wystarczy wpisywać `sail up -d`, `sail artisan` itd. zamiast pełnej ścieżki do sail (`./vendor/bin/sail`).
 
+<br>
+
 ## Architektura routingu
 
 W projekcie zastosowano podział routingów ze względu na ich przeznaczenie oraz wersjonowanie API. Każdy plik wejściowy (`routes.php`) pełni rolę punktu dostępowego dla danej warstwy aplikacji.
@@ -126,6 +128,8 @@ To warstwa obsługująca zapytania bezpośrednio z przeglądarki. Wykorzystywana
 Miejsce przeznaczone do definiowania komend Artisan oraz Schedule.
 **Plik wejściowy:** `routes/console/routes.php`
 
+<br>
+
 ## Wersjonowanie logiki
 
 Poza wyżej wspomnianym routingiem, wersjonowanie zastosowano również na poziomie struktury plików wewnątrz katalogu `app/`. Pozwala to na całkowitą izolację zmian – modyfikacja walidacji czy formatu danych w `V2` nie wpłynie na stabilność działającej już wersji `V1`.
@@ -140,6 +144,8 @@ W związku z tym, każda wersja API posiada własne zestawy klas w następujący
 
 **3. Resources: `app/Http/Resources/V1/`**
 - Sposób transformacji danych (Eloquent -> JSON). Pozwala to na swobodne zmienianie nazw kluczy w JSONie lub dodawanie nowych pól bez ryzyka błędu.
+
+<br>
 
 ## Dokumentacja API (Scramble)
 
@@ -175,6 +181,8 @@ public function index()
 }
 ```
 
+<br>
+
 ## Autoryzacja i testowanie API (Środowisko lokalne)
 
 Dostęp do chronionych zasobów API w celach testowych został zintegrowany z mechanizmem sesji oraz tokenów Bearer. Wybór metody zależy od używanego narzędzia:
@@ -188,6 +196,8 @@ Dostęp do chronionych zasobów API w celach testowych został zintegrowany z me
 Uwierzytelnianie oparte na tokenach Bearer jest wykorzystywane tylko do testów manualnych. Aplikacja frontendowa (Vue.js) korzysta z domyślnego mechanizmu sesji i ciastek dostarczanego przez Laravel Sanctum. Podczas pracy z SPA nie ma potrzeby ręcznego generowania ani przesyłania tokenów w nagłówkach.
 
 ![AuthToken](https://i.imgur.com/ca4ANMh.png)
+
+<br>
 
 ## Filtrowanie i Sortowanie (Spatie QueryBuilder)
 
@@ -215,9 +225,13 @@ public function index()
 }
 ```
 
+<br>
+
 ## Panel administratora (FilamentPHP)
 
 Panel admina znajduje się pod adresem `/admin` (np. http://localhost/admin).
+
+<br>
 
 ## Jakość kodu
 
@@ -230,7 +244,6 @@ W celu zwiększenia jakości i spójności kodu, w projekcie zainstalowane są d
   - https://phpstan.org/documentation
   - https://github.com/larastan/larastan
 
-
 **2.** Laravel Pint - Narzędzie do automatycznego formatowania stylu kodu (Style Fixer). Umożliwi nam to utrzymanie spójnego stylu kodu.
    
 - Wywołanie: `composer pint`
@@ -238,6 +251,8 @@ W celu zwiększenia jakości i spójności kodu, w projekcie zainstalowane są d
 
 #### Ważne!
 Przed każdym commitem warto uruchomić komendę `composer check`. To połączone polecenie, które najpierw sformatuje kod przy użyciu Laravel Pint, a następnie zweryfikuje przy pomocy PHPStan.
+
+<br>
 
 ## Debugowanie i Monitoring
 
@@ -269,6 +284,8 @@ MAIL_PORT=1025
 
 ![Mailpit](https://i.imgur.com/u4t7jsW.png)
 
+<br>
+
 ## Zabezpieczenie Model::shouldBeStrict()
 
 W pliku `app/Providers/AppServiceProvider` włączona jest opcja `Model::shouldBeStrict()`. W dużym skrócie, opcja ta powoduje:
@@ -280,6 +297,8 @@ W pliku `app/Providers/AppServiceProvider` włączona jest opcja `Model::shouldB
 **3.** Aplikacja rzuci błąd w przypadku próby odczytu kolumny, która nie została pobrana w zapytaniu lub nie istnieje.
 
 Więcej informacji z przykładami: https://laravel-news.com/shouldbestrict
+
+<br>
 
 ## Konwencja commitów
 
