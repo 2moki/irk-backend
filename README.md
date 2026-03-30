@@ -1,5 +1,21 @@
 # IRK - Backend (Laravel API + FilamentPHP)
 
+## Spis treści
+
+- [Instalacja i uruchomienie](#instalacja-i-uruchomienie)
+- [Architektura routingu](#architektura-routingu)
+- [Wersjonowanie logiki](#wersjonowanie-logiki)
+- [Dokumentacja API (Scramble)](#dokumentacja-api-scramble)
+- [Autoryzacja i testowanie API (Środowisko lokalne)](#autoryzacja-i-testowanie-api-środowisko-lokalne)
+- [Filtrowanie i sortowanie (Spatie QueryBuilder)](#filtrowanie-i-sortowanie-spatie-querybuilder)
+- [Panel administratora (FilamentPHP)](#panel-administratora-filamentphp)
+- [Jakość kodu](#jakość-kodu)
+- [Debugowanie i monitoring](#debugowanie-i-monitoring)
+- [Zabezpieczenie Model::shouldBeStrict()](#zabezpieczenie-modelshouldbestrict)
+- [Konwencja commitów](#konwencja-commitów)
+
+<br>
+
 ## Instalacja i uruchomienie
 
 **1. Przygotowanie systemu Windows (opcjonalne, jeśli Docker jest już zainstalowany)**
