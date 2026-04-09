@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
 
         User::factory()
             ->create([
-                'email' => 'admin@localhost',
+                'email' => 'admin@local.test',
                 'password' => 'password',
             ])->assignRole(RoleType::ADMIN->value);
     }
