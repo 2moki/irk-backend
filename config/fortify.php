@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Middleware\Localization;
 use Laravel\Fortify\Features;
 
 return [
@@ -103,7 +104,7 @@ return [
     |
     */
 
-    'middleware' => ['web'],
+    'middleware' => ['web', Localization::class],
 
     /*
     |--------------------------------------------------------------------------

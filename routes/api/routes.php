@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\AuthTokenController;
 use App\Http\Middleware\DecryptEmail;
+use App\Http\Middleware\Localization;
 use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\RoutePath;
 
-Route::middleware(['throttle:api'])->prefix('v1')->as('v1:')->group(function (): void {
+Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:')->group(function (): void {
     Route::prefix('countries')
         ->as('countries:')
         ->group(base_path('routes/api/v1/countries.php'));
@@ -26,7 +27,7 @@ Route::middleware(['throttle:api'])->prefix('v1')->as('v1:')->group(function ():
 });
 
 Route::post(RoutePath::for('password.update', 'auth/reset-password'), [NewPasswordController::class, 'store'])
-    ->middleware(['guest:' . config('fortify.guard'), DecryptEmail::class])
+    ->middleware(['guest:' . config('fortify.guard'), DecryptEmail::class, Localization::class])
     ->name('password.update');
 
 if (App::isLocal()) {
