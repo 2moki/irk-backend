@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Enums\Gender;
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -42,6 +43,10 @@ class UserFactory extends Factory
             'document_number' => null,
             'date_of_birth' => $this->faker->date(),
             'gender' => $this->faker->randomElement(Gender::cases()),
+            'address_id' => Address::factory(),
+            'mailing_address_id' => $this->faker->boolean()
+                ? Address::factory()
+                : null,
             'remember_token' => Str::random(10),
         ];
     }

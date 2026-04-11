@@ -11,6 +11,7 @@ use Filament\Models\Contracts\HasName;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -29,13 +30,17 @@ use Spatie\Permission\Traits\HasRoles;
     'document_number',
     'date_of_birth',
     'gender',
+    'address_id',
+    'mailing_address_id',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements HasName
 {
     use HasApiTokens;
+
     /** @use HasFactory<UserFactory> */
     use HasFactory;
+
     use HasRoles;
     use Notifiable;
     use SoftDeletes;
@@ -43,6 +48,22 @@ class User extends Authenticatable implements HasName
     public function getFilamentName(): string
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function address(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: Address::class,
+            foreignKey: 'address_id',
+        );
+    }
+
+    public function mailingAddress(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: Address::class,
+            foreignKey: 'mailing_address_id',
+        );
     }
 
     /** @return array<string, string> */

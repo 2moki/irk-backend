@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Models;
+
+use Database\Factories\AddressFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+#[Fillable([
+    'country_id',
+    'voivodeship_id',
+    'state',
+    'post_code',
+    'city',
+    'street',
+    'house_number',
+    'apartment_number',
+    'post_office',
+])]
+class Address extends Model
+{
+    /** @use HasFactory<AddressFactory> */
+    use HasFactory;
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class);
+    }
+
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function voivodeship(): BelongsTo
+    {
+        return $this->belongsTo(Voivodeship::class);
+    }
+}

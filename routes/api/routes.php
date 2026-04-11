@@ -10,8 +10,18 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\RoutePath;
 
-Route::middleware(['auth:sanctum', 'throttle:api'])->prefix('v1')->as('v1:')->group(function (): void {
-    Route::get('/user', fn(Request $request) => $request->user())->name('user');
+Route::middleware(['throttle:api'])->prefix('v1')->as('v1:')->group(function (): void {
+    Route::prefix('countries')
+        ->as('countries:')
+        ->group(base_path('routes/api/v1/countries.php'));
+
+    Route::prefix('voivodeships')
+        ->as('voivodeships:')
+        ->group(base_path('routes/api/v1/voivodeships.php'));
+
+    Route::middleware(['auth:sanctum'])->group(function (): void {
+        Route::get('/user', fn(Request $request) => $request->user())->name('user');
+    });
 });
 
 Route::post(RoutePath::for('password.update', 'auth/reset-password'), [NewPasswordController::class, 'store'])
