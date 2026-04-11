@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\AuthTokenController;
 use App\Http\Middleware\DecryptEmail;
+use App\Http\Resources\V1\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ Route::middleware(['throttle:api'])->prefix('v1')->as('v1:')->group(function ():
         ->group(base_path('routes/api/v1/voivodeships.php'));
 
     Route::middleware(['auth:sanctum'])->group(function (): void {
-        Route::get('/user', fn(Request $request) => $request->user())->name('user');
+        Route::get('user', fn(Request $request) => UserResource::make($request->user()))->name('user');
     });
 });
 
