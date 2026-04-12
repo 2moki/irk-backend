@@ -1,0 +1,25 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Factories;
+
+use App\Models\StudyLevel;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class StudyLevelFactory extends Factory
+{
+    protected $model = StudyLevel::class;
+
+    public function definition(): array
+    {
+        return [
+            'name' => $this->faker->randomElement([
+                'Licencjat',
+                'Inżynier',
+                'Magister',
+                'Doktorat',
+            ]),
+        ];
+    }
+}

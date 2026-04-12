@@ -20,6 +20,10 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            StudyLevelSeeder::class,
+            StudyModeSeeder::class,
+            DegreeTitleSeeder::class,
+            MajorSeeder::class,
         ]);
     }
 }
