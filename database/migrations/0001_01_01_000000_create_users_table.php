@@ -26,7 +26,7 @@ return new class () extends Migration {
             $table->string('password');
             $table->string('phone_prefix', 7)->default('+48');
             $table->string('phone_number', 20);
-            $table->char('pesel', 11)->unique();
+            $table->char('pesel', 11)->nullable()->unique();
             $table->string('document_number', 30)->nullable()->unique();
             $table->date('date_of_birth');
             $table->string('gender')->default(Gender::NOT_SPECIFIED->value);

@@ -70,7 +70,7 @@ class CreateNewUser implements CreatesNewUsers
                 'email' => $input['email'],
                 'phone_prefix' => $input['phone_prefix'] ?? '+48',
                 'phone_number' => $input['phone_number'],
-                'pesel' => $input['pesel'],
+                'pesel' => $input['pesel'] ?? null,
                 'document_number' => $input['document_number'] ?? null,
                 'date_of_birth' => $input['date_of_birth'],
                 'gender' => $input['gender'],
@@ -89,6 +89,8 @@ class CreateNewUser implements CreatesNewUsers
         $country = Country::findOrFail($input['country_id']);
         $isPoland = $country->code === 'PL';
 
+        $hasDocumentNumber = ! empty($input['document_number']);
+
         $hasDifferentMailingAddress = $input['different_mailing_address'] ?? false;
 
         Validator::make($input, [
@@ -105,13 +107,13 @@ class CreateNewUser implements CreatesNewUsers
             'phone_prefix' => ['nullable', 'string', 'max:7'],
             'phone_number' => ['required', 'string', 'max:20'],
             'pesel' => [
-                'required',
+                Rule::requiredIf(! $hasDocumentNumber),
                 'string',
                 'size:11',
                 'regex:/^[0-9]{11}$/',
                 Rule::unique(User::class),
             ],
-            'document_number' => ['nullable', 'string', 'max:30', Rule::unique(User::class)],
+            'document_number' => [Rule::requiredIf($hasDocumentNumber), 'string', 'max:30', Rule::unique(User::class)],
             'date_of_birth' => ['required', 'date', 'before:today'],
             'gender' => ['required', Rule::enum(Gender::class)],
             'password' => $this->passwordRules(),
