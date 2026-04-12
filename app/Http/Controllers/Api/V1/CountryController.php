@@ -17,7 +17,7 @@ class CountryController extends Controller
         $countries = QueryBuilder::for(Country::class)
             ->allowedFilters('code')
             ->allowedSorts('code', 'name_en', 'name_pl')
-            ->paginate(config()->integer('api.pagination.per_page'));
+            ->get();
 
         return response()->json(CountryResource::collection($countries));
     }
