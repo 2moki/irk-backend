@@ -19,6 +19,7 @@ class QualificationForm
 
                 Select::make('qualification_category_id')
                     ->label('Kategoria')
+                    ->required()
                     ->relationship('QualificationCategory', 'name')
                     
             ]);
