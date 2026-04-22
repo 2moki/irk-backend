@@ -6,8 +6,12 @@ namespace App\Filament\Resources\Users\Pages;
 
 use App\Enums\Auth\RoleType;
 use App\Filament\Resources\Users\UserResource;
+use App\Models\User;
 use Filament\Resources\Pages\CreateRecord;
 
+/**
+ * @property-read User $record
+ */
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
