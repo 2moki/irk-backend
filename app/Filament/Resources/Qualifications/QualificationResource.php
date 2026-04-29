@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Qualifications;
 
 use App\Filament\Resources\Qualifications\Pages\CreateQualification;
@@ -42,7 +44,7 @@ class QualificationResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 

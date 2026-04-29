@@ -106,55 +106,55 @@ class UserForm
                     ->description('Wypełnij, jeśli dokumenty mają trafiać pod inny adres')
                     ->visible(fn($get) => $get('has_different_mailing_address')) // Sekcja pojawia się tylko gdy checkbox jest zaznaczony
                     ->schema([
-                                        Select::make('country_id')
-                                            ->label('Państwo')
-                                            ->relationship('country', 'name_pl') // Używamy name_pl, jak ustaliliśmy wcześniej
-                                            ->searchable()
-                                            ->preload()
-                                            ->live()
-                                            ->required(),
+                        Select::make('country_id')
+                            ->label('Państwo')
+                            ->relationship('country', 'name_pl') // Używamy name_pl, jak ustaliliśmy wcześniej
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
 
-                                        Select::make('voivodeship_id')
-                                            ->label('Województwo')
-                                            ->relationship('voivodeship', 'name_pl')
-                                            ->visible(function ($get) {
-                                                $polandId = Country::where('code', 'PL')->value('id');
-                                                return $get('country_id') === $polandId;
-                                            })
-                                            ->required(function ($get) {
-                                                $polandId = Country::where('code', 'PL')->value('id');
-                                                return $get('country_id') === $polandId;
-                                            }),
+                        Select::make('voivodeship_id')
+                            ->label('Województwo')
+                            ->relationship('voivodeship', 'name_pl')
+                            ->visible(function ($get) {
+                                $polandId = Country::where('code', 'PL')->value('id');
+                                return $get('country_id') === $polandId;
+                            })
+                            ->required(function ($get) {
+                                $polandId = Country::where('code', 'PL')->value('id');
+                                return $get('country_id') === $polandId;
+                            }),
 
-                                        TextInput::make('state')
-                                            ->label('Stan / Region')
-                                            ->visible(function ($get) {
-                                                $polandId = Country::where('code', 'PL')->value('id');
-                                                return $get('country_id') !== $polandId && $get('country_id') !== null;
-                                            }),
+                        TextInput::make('state')
+                            ->label('Stan / Region')
+                            ->visible(function ($get) {
+                                $polandId = Country::where('code', 'PL')->value('id');
+                                return $get('country_id') !== $polandId && $get('country_id') !== null;
+                            }),
 
-                                        TextInput::make('post_code')
-                                            ->label('Kod pocztowy')
-                                            ->required(),
+                        TextInput::make('post_code')
+                            ->label('Kod pocztowy')
+                            ->required(),
 
 
-                                        TextInput::make('city')
-                                            ->label('Miasto')
-                                            ->required(),
+                        TextInput::make('city')
+                            ->label('Miasto')
+                            ->required(),
 
-                                        TextInput::make('post_office')
-                                            ->label('Poczta'),
+                        TextInput::make('post_office')
+                            ->label('Poczta'),
 
-                                        TextInput::make('street')
-                                            ->label('Ulica'),
+                        TextInput::make('street')
+                            ->label('Ulica'),
 
-                                        TextInput::make('house_number')
-                                            ->label('Nr domu')
-                                            ->required(),
+                        TextInput::make('house_number')
+                            ->label('Nr domu')
+                            ->required(),
 
-                                        TextInput::make('apartment_number')
-                                            ->label('Nr lokalu'),
-                                    ])
+                        TextInput::make('apartment_number')
+                            ->label('Nr lokalu'),
+                    ])
                     ->columns(1),
 
                 // Użycie nowej klasy Section z namespace'u Schemas
@@ -162,52 +162,52 @@ class UserForm
                     ->relationship('address')
                     ->schema([
                         Select::make('country_id')
-                                            ->label('Państwo')
-                                            ->relationship('country', 'name_pl')
-                                            ->searchable()
-                                            ->preload()
-                                            ->live()
-                                            ->required(),
+                            ->label('Państwo')
+                            ->relationship('country', 'name_pl')
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->required(),
 
                         Select::make('voivodeship_id')
-                                            ->label('Województwo')
-                                            ->relationship('voivodeship', 'name_pl')
-                                            ->visible(function ($get) {
-                                                $polandId = Country::where('code', 'PL')->value('id');
-                                                return $get('country_id') === $polandId;
-                                            })
-                                            ->required(function ($get) {
-                                                $polandId = Country::where('code', 'PL')->value('id');
-                                                return $get('country_id') === $polandId;
-                                            }),
+                            ->label('Województwo')
+                            ->relationship('voivodeship', 'name_pl')
+                            ->visible(function ($get) {
+                                $polandId = Country::where('code', 'PL')->value('id');
+                                return $get('country_id') === $polandId;
+                            })
+                            ->required(function ($get) {
+                                $polandId = Country::where('code', 'PL')->value('id');
+                                return $get('country_id') === $polandId;
+                            }),
 
                         TextInput::make('state')
-                                            ->label('Stan / Region')
-                                            ->visible(function ($get) {
-                                                $polandId = Country::where('code', 'PL')->value('id');
-                                                return $get('country_id') !== $polandId && $get('country_id') !== null;
-                                            }),
+                            ->label('Stan / Region')
+                            ->visible(function ($get) {
+                                $polandId = Country::where('code', 'PL')->value('id');
+                                return $get('country_id') !== $polandId && $get('country_id') !== null;
+                            }),
 
                         TextInput::make('post_code')
-                                            ->label('Kod pocztowy')
-                                            ->required(),
+                            ->label('Kod pocztowy')
+                            ->required(),
 
                         TextInput::make('city')
-                                            ->label('Miasto')
-                                            ->required(),
+                            ->label('Miasto')
+                            ->required(),
 
                         TextInput::make('post_office')
-                                            ->label('Poczta'),
+                            ->label('Poczta'),
 
                         TextInput::make('street')
-                                            ->label('Ulica'),
+                            ->label('Ulica'),
 
                         TextInput::make('house_number')
-                                            ->label('Nr domu')
-                                            ->required(),
+                            ->label('Nr domu')
+                            ->required(),
 
                         TextInput::make('apartment_number')
-                                            ->label('Nr lokalu'),
+                            ->label('Nr lokalu'),
                     ])
                     ->columns(1),
 

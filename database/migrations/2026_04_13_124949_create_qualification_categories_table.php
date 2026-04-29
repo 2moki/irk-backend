@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('qualification_categories', function (Blueprint $table) {
+        Schema::create('qualification_categories', function (Blueprint $table): void {
             $table->id();
             $table->string("name");
             $table->timestamps();
@@ -23,7 +24,7 @@ return new class extends Migration
             ['name' => 'Przedmiot z egzaminu maturalnego (podstawa)'],
             ['name' => 'Przedmiot z egzaminu maturalnego (rozszerzenie)'],
             ['name' => 'Egzamin zawodowy'],
-            ['name' => 'Egzamin kwalifikacyjny']
+            ['name' => 'Egzamin kwalifikacyjny'],
         ];
 
         DB::table('qualification_categories')->insert($categories);

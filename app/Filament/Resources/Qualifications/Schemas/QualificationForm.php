@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Qualifications\Schemas;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
 class QualificationForm
@@ -19,8 +21,8 @@ class QualificationForm
 
                 Select::make('qualification_category_id')
                     ->label('Kategoria')
-                    ->relationship('QualificationCategory', 'name')
-                    
+                    ->relationship('QualificationCategory', 'name'),
+
             ]);
 
     }
