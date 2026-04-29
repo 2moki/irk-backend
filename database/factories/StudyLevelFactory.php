@@ -7,10 +7,14 @@ namespace Database\Factories;
 use App\Models\StudyLevel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<StudyLevel>
+ */
 class StudyLevelFactory extends Factory
 {
-    protected $model = StudyLevel::class;
-
+    /**
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [

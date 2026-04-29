@@ -17,13 +17,28 @@ class DatabaseSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         $this->call([
+            // Auth & Users
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+
+            // Dictionaries
             StudyLevelSeeder::class,
             StudyModeSeeder::class,
             DegreeTitleSeeder::class,
+            LanguageSeeder::class,
+            SchoolSeeder::class,
+
+            GradeMappingSeeder::class,
+            GradeSeeder::class,
+            AcademicYearSeeder::class,
+
+            // Core
             MajorSeeder::class,
+            RecruitmentSeeder::class,
+
+            // Candidates
+            CandidateSeeder::class,
         ]);
     }
 }

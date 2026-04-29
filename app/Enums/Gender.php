@@ -9,4 +9,9 @@ enum Gender: string
     case MALE = 'male';
     case FEMALE = 'female';
     case NOT_SPECIFIED = 'not_specified';
+
+    public function label(): string
+    {
+        return __('genders.' . $this->value);
+    }
 }

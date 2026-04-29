@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Qualifications\Schemas;
-use Filament\Infolists\Components\TextEntry;
+declare(strict_types=1);
 
+namespace App\Filament\Resources\Qualifications\Schemas;
+
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
 class QualificationInfolist

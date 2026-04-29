@@ -7,10 +7,14 @@ namespace Database\Factories;
 use App\Models\StudyMode;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<StudyMode>
+ */
 class StudyModeFactory extends Factory
 {
-    protected $model = StudyMode::class;
-
+    /**
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
