@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\Auth\RoleType;
 use App\Enums\Gender;
-use Filament\Models\Contracts\FilamentUser; // Dodane
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
-use Filament\Panel; // Dodane
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -25,7 +26,6 @@ use Spatie\Permission\Traits\HasRoles;
     'last_name',
     'email',
     'password',
-    'role', // Pamiętaj, aby dodać to do fillable!
     'phone_prefix',
     'phone_number',
     'pesel',
@@ -49,8 +49,7 @@ class User extends Authenticatable implements HasName, FilamentUser // Dodano Fi
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        // Sprawdzamy, czy użytkownik ma przypisaną rolę admin lub staff przez Spatie
-        return $this->hasAnyRole(['admin', 'staff']);
+        return $this->hasAnyRole([RoleType::ADMIN->value, RoleType::EMPLOYEE->value]);
     }
 
     /**
