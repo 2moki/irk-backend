@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\Auth\RoleType;
 use App\Enums\Gender;
+use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,9 +39,10 @@ use Spatie\Permission\Traits\HasRoles;
     'mailing_address_id',
 ])]
 #[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable implements HasName, FilamentUser // Dodano FilamentUser
+class User extends Authenticatable implements HasName, FilamentUser
 {
     use HasApiTokens;
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
     use HasRoles;
     use Notifiable;
@@ -62,6 +66,8 @@ class User extends Authenticatable implements HasName, FilamentUser // Dodano Fi
 
     /**
      * Relacja do głównego adresu.
+     *
+     * @return BelongsTo<Address, $this>
      */
     public function address(): BelongsTo
     {
@@ -70,10 +76,44 @@ class User extends Authenticatable implements HasName, FilamentUser // Dodano Fi
 
     /**
      * Relacja do adresu korespondencyjnego.
+     *
+     * @return BelongsTo<Address, $this>
      */
     public function mailingAddress(): BelongsTo
     {
         return $this->belongsTo(Address::class, 'mailing_address_id');
+    }
+
+    /**
+     * @return HasOne<CandidateDetail, $this>
+     */
+    public function candidateDetail(): HasOne
+    {
+        return $this->hasOne(CandidateDetail::class);
+    }
+
+    /**
+     * @return HasMany<Application, $this>
+     */
+    public function applications(): HasMany
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    /**
+     * @return HasMany<UserDocument, $this>
+     */
+    public function documents(): HasMany
+    {
+        return $this->hasMany(UserDocument::class);
+    }
+
+    /**
+     * @return HasMany<UserCertificate, $this>
+     */
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(UserCertificate::class);
     }
 
     /**
@@ -88,6 +128,8 @@ class User extends Authenticatable implements HasName, FilamentUser // Dodano Fi
 
     /**
      * Castingi pól.
+     *
+     * @return array<string, string>
      */
     protected function casts(): array
     {

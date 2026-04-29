@@ -10,10 +10,14 @@ use App\Models\StudyLevel;
 use App\Models\StudyMode;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<Major>
+ */
 class MajorFactory extends Factory
 {
-    protected $model = Major::class;
-
+    /**
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
@@ -23,11 +27,16 @@ class MajorFactory extends Factory
                 'Ekonomia',
                 'Matematyka',
                 'Automatyka i robotyka',
+                'Prawo',
+                'Medycyna',
+                'Filologia angielska',
+                'Psychologia',
+                'Architektura',
             ]),
             'semesters' => $this->faker->randomElement([6, 7, 8, 10]),
-            'study_level_id' => StudyLevel::inRandomOrder()->first()->id,
-            'study_mode_id' => StudyMode::inRandomOrder()->first()->id,
-            'degree_title_id' => DegreeTitle::inRandomOrder()->first()->id,
+            'study_level_id' => StudyLevel::inRandomOrder()->first()->id ?? StudyLevel::factory(),
+            'study_mode_id' => StudyMode::inRandomOrder()->first()->id ?? StudyMode::factory(),
+            'degree_title_id' => DegreeTitle::inRandomOrder()->first()->id ?? DegreeTitle::factory(),
         ];
     }
 }
