@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'study_level_id',
     'study_mode_id',
     'degree_title_id',
+    'languages_limit',
 ])]
 class Major extends Model
 {
@@ -71,6 +72,7 @@ class Major extends Model
     {
         return [
             'semesters' => 'integer',
+            'languages_limit' => 'integer',
         ];
     }
 }

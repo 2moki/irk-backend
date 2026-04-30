@@ -46,6 +46,12 @@ class MajorForm
                 ->preload()
                 ->required(),
 
+            TextInput::make('languages_limit')
+                ->label(__('Max languages per candidate'))
+                ->required()
+                ->numeric()
+                ->minValue(1),
+
             ModalTableSelect::make('languages')
                 ->label(trans_choice('Foreign language', 2))
                 ->relationship('languages', 'name')
