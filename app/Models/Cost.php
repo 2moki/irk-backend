@@ -16,6 +16,8 @@ class Cost extends Model
     /** @use HasFactory<CostFactory> */
     use HasFactory;
 
+    public $timestamps = false;
+
     /**
      * @return HasMany<Recruitment, $this>
      */

@@ -19,6 +19,7 @@ class RequirementGroupFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => $this->faker->unique()->word(),
             'weight' => $this->faker->randomFloat(2, 0.1, 1.0),
             'qualifications_count' => $this->faker->numberBetween(1, 5),
             'recruitment_id' => Recruitment::factory(),

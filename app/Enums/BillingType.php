@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum BillingType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum BillingType: string implements HasLabel
 {
     case HIGHEST_FEE_ONLY = 'highest_fee_only';
     case EACH_MAJOR_SEPARATELY = 'each_major_separately';
     case EACH_GROUP_SEPARATELY = 'each_group_separately';
 
-    public function label(): string
+    public function getLabel(): string
     {
         return __('billing_types.' . $this->value);
     }
