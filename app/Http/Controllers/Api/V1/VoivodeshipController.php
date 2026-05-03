@@ -17,7 +17,7 @@ class VoivodeshipController extends Controller
         $voivodeships = QueryBuilder::for(Voivodeship::class)
             ->allowedFilters('name_en', 'name_pl')
             ->allowedSorts('name_en', 'name_pl')
-            ->paginate(config()->integer('api.pagination.per_page'));
+            ->get();
 
         return response()->json(VoivodeshipResource::collection($voivodeships));
     }

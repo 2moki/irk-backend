@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StudyModeFactory extends Factory
 {
-    protected $model = StudyMode::class;
-
+    /**
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [

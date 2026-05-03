@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\RoutePath;
+use App\Http\Controllers\Api\V1\UserController;
 
 Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:')->group(function (): void {
     Route::prefix('countries')
@@ -23,6 +24,7 @@ Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:'
 
     Route::middleware(['auth:sanctum'])->group(function (): void {
         Route::get('user', fn(Request $request) => UserResource::make($request->user()))->name('user');
+        Route::put('/user', [UserController::class, 'update']);
     });
 });
 

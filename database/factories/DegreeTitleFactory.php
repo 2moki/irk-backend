@@ -7,10 +7,14 @@ namespace Database\Factories;
 use App\Models\DegreeTitle;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends Factory<DegreeTitle>
+ */
 class DegreeTitleFactory extends Factory
 {
-    protected $model = DegreeTitle::class;
-
+    /**
+     * @return array<string, mixed>
+     */
     public function definition(): array
     {
         return [
