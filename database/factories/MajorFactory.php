@@ -22,16 +22,9 @@ class MajorFactory extends Factory
     {
         return [
             'name' => $this->faker->randomElement([
-                'Informatyka',
-                'Zarządzanie',
-                'Ekonomia',
-                'Matematyka',
-                'Automatyka i robotyka',
-                'Prawo',
-                'Medycyna',
-                'Filologia angielska',
-                'Psychologia',
-                'Architektura',
+                'Informatyka', 'Zarządzanie', 'Ekonomia', 'Matematyka',
+                'Automatyka i robotyka', 'Prawo', 'Medycyna',
+                'Filologia angielska', 'Psychologia', 'Architektura',
             ]),
             'semesters' => $this->faker->randomElement([6, 7, 8, 10]),
             'study_level_id' => StudyLevel::inRandomOrder()->first()->id ?? StudyLevel::factory(),

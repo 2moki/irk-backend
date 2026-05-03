@@ -18,8 +18,8 @@ class LanguageFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->languageCode(),
-            'code' => $this->faker->unique()->languageCode(),
+            'name' => $this->faker->word(),
+            'code' => $this->faker->unique()->lexify('??'),
         ];
     }
 }

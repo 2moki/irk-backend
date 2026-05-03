@@ -20,16 +20,13 @@ class RecruitmentFactory extends Factory
      */
     public function definition(): array
     {
-        $startDate = $this->faker->dateTimeBetween('+1 month', '+3 months');
-        $endDate = $this->faker->dateTimeBetween($startDate, '+6 months');
-
         return [
-            'start_date' => $startDate,
-            'end_date' => $endDate,
+            'start_date' => $this->faker->dateTimeBetween('+1 month', '+3 months'),
+            'end_date' => $this->faker->dateTimeBetween('+4 months', '+6 months'),
             'slots' => $this->faker->numberBetween(30, 200),
-            'major_id' => Major::factory(),
+            'major_id' => Major::inRandomOrder()->first()->id ?? Major::factory(),
             'academic_year_id' => AcademicYear::inRandomOrder()->first()->id ?? AcademicYear::factory(),
-            'cost_id' => Cost::inRandomOrder()->first()->id ?? Cost::factory(),
+            'cost_id' => Cost::inRandomOrder()->first()->id ?? 1,
         ];
     }
 }

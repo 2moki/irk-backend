@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\RecruitmentStatus;
+use App\Models\Pivots\RecruitmentApplication;
 use Database\Factories\RecruitmentFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -64,11 +65,12 @@ class Recruitment extends Model
     }
 
     /**
-     * @return BelongsToMany<Application, $this>
+     * @return BelongsToMany<Application, $this, RecruitmentApplication>
      */
     public function applications(): BelongsToMany
     {
         return $this->belongsToMany(Application::class, 'recruitment_application')
+            ->using(RecruitmentApplication::class)
             ->withPivot(['got_points', 'max_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
             ->withTimestamps();
     }

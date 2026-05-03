@@ -20,10 +20,10 @@ class QualificationScoreFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_certificate_id' => UserCertificate::factory(),
-            'qualification_id' => Qualification::factory(),
-            'value' => $this->faker->randomFloat(2, 0, 100),
-            'is_bilingual' => $this->faker->boolean(15),
+            'user_certificate_id' => UserCertificate::inRandomOrder()->first()->id ?? UserCertificate::factory(),
+            'qualification_id' => Qualification::inRandomOrder()->first()->id ?? Qualification::factory(),
+            'value' => $this->faker->numberBetween(0, 100),
+            'is_bilingual' => false,
         ];
     }
 }

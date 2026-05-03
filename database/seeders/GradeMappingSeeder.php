@@ -11,15 +11,6 @@ class GradeMappingSeeder extends Seeder
 {
     public function run(): void
     {
-        $mappings = [
-            'Skala procentowa (nowa matura)',
-            'Skala 2-5 (stara matura)',
-            'Skala IB (1-7)',
-            'Skala EB (1-10)',
-        ];
-
-        collect($mappings)->each(
-            fn(string $name) => GradeMapping::firstOrCreate(['name' => $name]),
-        );
+        GradeMapping::factory()->count(4)->create();
     }
 }

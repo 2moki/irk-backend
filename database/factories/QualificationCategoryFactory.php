@@ -19,10 +19,8 @@ class QualificationCategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->randomElement([
-                'Przedmiot ze szkoły średniej',
-                'Przedmiot ze starej matury',
-                'Przedmiot z egzaminu maturalnego (podstawa)',
-                'Przedmiot z egzaminu maturalnego (rozszerzenie)',
+                'Przedmiot podstawowy',
+                'Przedmiot rozszerzony',
                 'Egzamin zawodowy',
                 'Egzamin kwalifikacyjny',
             ]),

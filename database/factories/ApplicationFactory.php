@@ -20,10 +20,10 @@ class ApplicationFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
             'money_balance' => $this->faker->randomFloat(2, 0, 500),
             'required_balance' => $this->faker->randomElement([85.00, 100.00, 150.00]),
-            'documents_delivered' => $this->faker->boolean(30),
+            'documents_delivered' => $this->faker->boolean(),
             'exam_type' => $this->faker->randomElement(ExamType::cases()),
         ];
     }

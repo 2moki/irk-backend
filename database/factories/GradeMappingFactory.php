@@ -18,12 +18,7 @@ class GradeMappingFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->randomElement([
-                'Skala procentowa (nowa matura)',
-                'Skala 2-5 (stara matura)',
-                'Skala IB (1-7)',
-                'Skala EB (1-10)',
-            ]),
+            'name' => $this->faker->unique()->word() . ' grading scale',
         ];
     }
 }

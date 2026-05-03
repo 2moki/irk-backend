@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Language;
-use App\Models\RecruitmentApplication;
+use App\Models\Pivots\RecruitmentApplication;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +13,7 @@ return new class () extends Migration {
     {
         Schema::create('application_language', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(RecruitmentApplication::class)->constrained('recruitment_application')->cascadeOnDelete();
+            $table->foreignIdFor(RecruitmentApplication::class, 'recruitment_application_id')->constrained('recruitment_application')->cascadeOnDelete();
             $table->foreignIdFor(Language::class)->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('priority')->default(1);
             $table->timestamps();
