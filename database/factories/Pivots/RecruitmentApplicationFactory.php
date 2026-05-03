@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories;
+namespace Database\Factories\Pivots;
 
 use App\Enums\ApplicationStatus;
 use App\Models\Application;
+use App\Models\Pivots\RecruitmentApplication;
 use App\Models\Recruitment;
-use App\Models\RecruitmentApplication;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,22 +15,21 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class RecruitmentApplicationFactory extends Factory
 {
+    protected $model = RecruitmentApplication::class;
+
     /**
      * @return array<string, mixed>
      */
     public function definition(): array
     {
-        $maxPoints = $this->faker->randomFloat(2, 50, 200);
-        $isPaid = $this->faker->boolean(60);
-
         return [
             'application_id' => Application::factory(),
-            'recruitment_id' => Recruitment::factory(),
-            'got_points' => $this->faker->randomFloat(2, 0, $maxPoints),
-            'max_points' => $maxPoints,
+            'recruitment_id' => Recruitment::inRandomOrder()->first()->id ?? Recruitment::factory(),
+            'got_points' => $this->faker->randomFloat(2, 0, 100),
+            'max_points' => 100.00,
             'priority' => $this->faker->numberBetween(1, 5),
-            'is_paid' => $isPaid,
-            'payment_date' => $isPaid ? $this->faker->dateTimeBetween('-1 month', 'now') : null,
+            'is_paid' => $this->faker->boolean(),
+            'payment_date' => $this->faker->date(),
             'application_status' => $this->faker->randomElement(ApplicationStatus::cases()),
         ];
     }

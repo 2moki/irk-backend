@@ -21,14 +21,14 @@ class UserCertificateFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
             'exam_type' => $this->faker->randomElement(ExamType::cases()),
-            'school_id' => School::factory(),
+            'school_id' => School::inRandomOrder()->first()->id ?? School::factory(),
             'school_custom_name' => null,
-            'issue_date' => $this->faker->dateTimeBetween('-5 years', 'now'),
-            'is_annex' => $this->faker->boolean(10),
-            'document_number' => $this->faker->unique()->regexify('[A-Z]{2}/[0-9]{4}/[0-9]{4}'),
-            'is_verified' => $this->faker->boolean(40),
+            'issue_date' => $this->faker->date(),
+            'is_annex' => false,
+            'document_number' => $this->faker->unique()->numerify('MM/####/####'),
+            'is_verified' => false,
             'document_id' => null,
         ];
     }

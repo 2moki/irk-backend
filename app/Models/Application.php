@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\ExamType;
+use App\Models\Pivots\RecruitmentApplication;
 use Database\Factories\ApplicationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property-read RecruitmentApplication $pivot
+ */
 #[Fillable([
     'user_id',
     'money_balance',
@@ -34,21 +37,14 @@ class Application extends Model
     }
 
     /**
-     * @return BelongsToMany<Recruitment, $this>
+     * @return BelongsToMany<Recruitment, $this, RecruitmentApplication>
      */
     public function recruitments(): BelongsToMany
     {
         return $this->belongsToMany(Recruitment::class, 'recruitment_application')
+            ->using(RecruitmentApplication::class)
             ->withPivot(['got_points', 'max_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
             ->withTimestamps();
-    }
-
-    /**
-     * @return HasMany<RecruitmentApplication, $this>
-     */
-    public function recruitmentApplications(): HasMany
-    {
-        return $this->hasMany(RecruitmentApplication::class);
     }
 
     /**

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Majors\Schemas;
 
+use App\Filament\Resources\Languages\Tables\LanguageSelectionTable;
+use Filament\Forms\Components\ModalTableSelect;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -43,6 +45,19 @@ class MajorForm
                 ->searchable()
                 ->preload()
                 ->required(),
+
+            TextInput::make('languages_limit')
+                ->label(__('Max languages per candidate'))
+                ->required()
+                ->numeric()
+                ->minValue(1),
+
+            ModalTableSelect::make('languages')
+                ->label(trans_choice('Foreign language', 2))
+                ->relationship('languages', 'name')
+                ->required()
+                ->multiple()
+                ->tableConfiguration(LanguageSelectionTable::class),
         ]);
     }
 }

@@ -21,10 +21,10 @@ class QualificationFactory extends Factory
         return [
             'name' => $this->faker->unique()->randomElement([
                 'Matematyka', 'Fizyka', 'Chemia', 'Biologia', 'Informatyka',
-                'Język polski', 'Język angielski', 'Język niemiecki', 'Język francuski',
+                'Język polski', 'Język angielski', 'Język niemiecki',
                 'Historia', 'Geografia', 'WOS', 'Filozofia',
             ]),
-            'qualification_category_id' => QualificationCategory::factory(),
+            'qualification_category_id' => QualificationCategory::inRandomOrder()->first()->id ?? QualificationCategory::factory(),
         ];
     }
 }

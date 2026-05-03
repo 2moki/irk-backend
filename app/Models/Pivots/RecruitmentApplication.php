@@ -2,16 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Pivots;
 
 use App\Enums\ApplicationStatus;
-use Database\Factories\RecruitmentApplicationFactory;
+use App\Models\Application;
+use App\Models\Language;
+use App\Models\Recruitment;
+use Database\Factories\Pivots\RecruitmentApplicationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
+#[Table(name: 'recruitment_application', incrementing: true)]
 #[Fillable([
     'application_id',
     'recruitment_id',
@@ -22,12 +27,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     'payment_date',
     'application_status',
 ])]
-class RecruitmentApplication extends Model
+class RecruitmentApplication extends Pivot
 {
     /** @use HasFactory<RecruitmentApplicationFactory> */
     use HasFactory;
-
-    protected $table = 'recruitment_application';
 
     /**
      * @return BelongsTo<Application, $this>

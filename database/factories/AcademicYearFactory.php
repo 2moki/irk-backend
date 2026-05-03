@@ -20,9 +20,9 @@ class AcademicYearFactory extends Factory
     public function definition(): array
     {
         return [
-            'start_year' => $this->faker->unique()->numberBetween(2020, 2030),
+            'start_year' => $this->faker->unique()->numberBetween(2020, 2035),
             'billing_type' => $this->faker->randomElement(BillingType::cases()),
-            'grade_mapping_id' => GradeMapping::factory(),
+            'grade_mapping_id' => GradeMapping::inRandomOrder()->first()->id ?? GradeMapping::factory(),
         ];
     }
 }

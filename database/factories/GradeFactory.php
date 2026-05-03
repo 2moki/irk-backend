@@ -19,16 +19,13 @@ class GradeFactory extends Factory
      */
     public function definition(): array
     {
-        $min = $this->faker->numberBetween(0, 50);
-        $max = $this->faker->numberBetween($min + 10, 100);
-
         return [
-            'min_value' => $min,
-            'max_value' => $max,
+            'min_value' => $this->faker->numberBetween(0, 50),
+            'max_value' => $this->faker->numberBetween(51, 100),
             'conversion_rate' => $this->faker->randomFloat(2, 0.5, 2.0),
-            'multiplier' => $this->faker->randomElement([0.5, 0.7, 1.0, 1.5]),
+            'multiplier' => $this->faker->randomElement([0.5, 1.0, 1.5]),
             'is_bilingual' => $this->faker->boolean(20),
-            'grade_mapping_id' => GradeMapping::factory(),
+            'grade_mapping_id' => GradeMapping::inRandomOrder()->first()->id ?? GradeMapping::factory(),
             'exam_type' => $this->faker->randomElement(ExamType::cases()),
         ];
     }

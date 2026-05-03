@@ -169,6 +169,7 @@ return [
         'birthday'                 => 'urodziny',
         'body'                     => 'treść',
         'city'                     => 'miasto',
+        'code'                     => 'kod',
         'color'                    => 'color',
         'company'                  => 'firma',
         'compilation'              => 'kompilacja',

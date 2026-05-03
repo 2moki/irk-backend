@@ -20,13 +20,11 @@ class UserDocumentFactory extends Factory
      */
     public function definition(): array
     {
-        $documentType = $this->faker->randomElement(DocumentType::cases());
-
         return [
-            'user_id' => User::factory(),
-            'document_type' => $documentType,
-            'file_path' => "documents/{$this->faker->uuid()}.pdf",
-            'file_name' => "{$documentType->value}_{$this->faker->uuid()}.pdf",
+            'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
+            'document_type' => $this->faker->randomElement(DocumentType::cases()),
+            'file_path' => 'documents/' . $this->faker->uuid() . '.pdf',
+            'file_name' => 'dokument_' . $this->faker->uuid() . '.pdf',
             'document_status' => $this->faker->randomElement(DocumentStatus::cases()),
         ];
     }
