@@ -17,6 +17,7 @@ class AcademicYearForm
                 Select::make('start_year')
                     ->label(__('academic_years.start_year'))
                     ->required()
+                    ->unique()
                     ->options(function (): array {
                         $years = range(now()->addYears(5)->format('Y'), now()->subYears(5)->format('Y'));
                         return array_combine($years, $years);
