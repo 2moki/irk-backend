@@ -22,12 +22,12 @@ class AcademicYearResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
-    public static function getLabel(): ?string
+    public static function getModelLabel(): string
     {
         return trans_choice('Academic year', 1);
     }
 
-    public static function getPluralLabel(): ?string
+    public static function getPluralModelLabel(): string
     {
         return trans_choice('Academic year', 2);
     }
