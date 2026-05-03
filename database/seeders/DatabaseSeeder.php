@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             // Core
             MajorSeeder::class,
             RecruitmentSeeder::class,
+            RecruitmentApplicationSeeder::class,
 
             // Candidates
             CandidateSeeder::class,

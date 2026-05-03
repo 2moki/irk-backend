@@ -17,6 +17,7 @@ return [
     'suspend' => 'Suspend',
     'suspend_selected' => 'Suspend selected',
     'suspend_confirmation' => 'Are you sure you want to suspend this recruitment? This will prevent candidates from submitting applications.|Are you sure you want to suspend the selected recruitment processes? This will prevent candidates from submitting applications.',
+    'send_email' => 'Send e-mail message',
     'statuses' => [
         'waiting' => 'Waiting',
         'ongoing' => 'Ongoing',

@@ -7,11 +7,13 @@ namespace App\Models;
 use App\Enums\ApplicationStatus;
 use Database\Factories\RecruitmentApplicationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+#[Table(name: 'recruitment_application')]
 #[Fillable([
     'application_id',
     'recruitment_id',
@@ -26,8 +28,6 @@ class RecruitmentApplication extends Model
 {
     /** @use HasFactory<RecruitmentApplicationFactory> */
     use HasFactory;
-
-    protected $table = 'recruitment_application';
 
     /**
      * @return BelongsTo<Application, $this>

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Recruitments\Tables;
 
+use App\Actions\SendRecruitmentEmails;
+use App\Enums\ApplicationStatus;
 use App\Models\Recruitment;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -11,12 +13,15 @@ use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 class RecruitmentsTable
@@ -76,6 +81,34 @@ class RecruitmentsTable
                 EditAction::make(),
                 ActionGroup::make([
                     ViewAction::make(),
+                    Action::make('email')
+                        ->label(__('recruitments.send_email'))
+                        ->icon(Heroicon::OutlinedEnvelope)
+                        ->schema([
+                            TextInput::make('subject')
+                                ->label(Str::ucfirst(__('validation.attributes.subject')))
+                                ->required()
+                                ->minLength(3)
+                                ->maxLength(80),
+                            Select::make('statuses')
+                                ->label(trans_choice('Application status', 2))
+                                ->options(ApplicationStatus::class)
+                                ->placeholder('Wszyscy')
+                                ->multiple(),
+                            RichEditor::make('body')
+                                ->label(Str::ucfirst(__('validation.attributes.body')))
+                                ->fileAttachmentsDirectory('attachments')
+                                ->resizableImages()
+                                ->required()
+                                ->minLength(10)
+                                ->maxLength(2000),
+                        ])
+                        ->modalSubmitActionLabel(__('actions.send'))
+                        ->action(function (Recruitment $recruitment, array $data): void {
+                            $recruitment->loadMissing(['applications', 'applications.user']);
+
+                            app(SendRecruitmentEmails::class)->execute($recruitment, $data);
+                        }),
                     Action::make('resume')
                         ->label(__('recruitments.resume'))
                         ->icon(Heroicon::OutlinedPlayCircle)
@@ -93,6 +126,37 @@ class RecruitmentsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    BulkAction::make('email')
+                        ->label(__('recruitments.send_email'))
+                        ->icon(Heroicon::OutlinedEnvelope)
+                        ->schema([
+                            TextInput::make('subject')
+                                ->label(Str::ucfirst(__('validation.attributes.subject')))
+                                ->required()
+                                ->minLength(3)
+                                ->maxLength(80),
+                            Select::make('statuses')
+                                ->label(trans_choice('Application status', 2))
+                                ->options(ApplicationStatus::class)
+                                ->placeholder('Wszyscy')
+                                ->multiple(),
+                            RichEditor::make('body')
+                                ->label(Str::ucfirst(__('validation.attributes.body')))
+                                ->fileAttachmentsDirectory('attachments')
+                                ->resizableImages()
+                                ->required()
+                                ->minLength(10)
+                                ->maxLength(2000),
+                        ])
+                        ->modalSubmitActionLabel(__('actions.send'))
+                        ->action(function (Collection $recruitments, array $data): void {
+                            $recruitments->loadMissing(['applications', 'applications.user']);
+
+                            /** @var Recruitment $recruitment */
+                            foreach ($recruitments as $recruitment) {
+                                app(SendRecruitmentEmails::class)->execute($recruitment, $data);
+                            }
+                        }),
                     BulkAction::make('resume')
                         ->label(__('recruitments.resume_selected'))
                         ->icon(Heroicon::OutlinedPlayCircle)
@@ -107,6 +171,7 @@ class RecruitmentsTable
                         ->requiresConfirmation()
                         ->modalDescription(trans_choice('recruitments.suspend_confirmation', 2))
                         ->action(function (Collection $records): void {
+                            /** @var Recruitment $record */
                             foreach ($records as $record) {
                                 if ($record->end_date >= now()) {
                                     $record->update(['is_suspended' => true]);

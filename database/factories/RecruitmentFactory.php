@@ -28,7 +28,7 @@ class RecruitmentFactory extends Factory
             'end_date' => $endDate,
             'slots' => $this->faker->numberBetween(30, 200),
             'major_id' => Major::factory(),
-            'academic_year_id' => AcademicYear::factory(),
+            'academic_year_id' => AcademicYear::inRandomOrder()->first()->id ?? AcademicYear::factory(),
             'cost_id' => Cost::inRandomOrder()->first()->id ?? Cost::factory(),
         ];
     }

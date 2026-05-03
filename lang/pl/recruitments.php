@@ -17,6 +17,7 @@ return [
     'suspend' => 'Wstrzymaj',
     'suspend_selected' => 'Wstrzymaj zaznaczone',
     'suspend_confirmation' => 'Czy na pewno chcesz wstrzymać tę rekrutację? To uniemożliwi kandydatom składanie podań.|Czy na pewno chcesz wstrzymać wybrane rekrutacje? To uniemożliwi kandydatom składanie podań.',
+    'send_email' => 'Wyślij wiadomość e-mail',
     'statuses' => [
         'waiting' => 'Oczekująca',
         'ongoing' => 'Trwająca',
