@@ -6,7 +6,7 @@ return [
     'start_date' => 'Date of start',
     'end_date' => 'Date of end',
     'slots' => 'Enrollment cap',
-    'requirement_groups' => 'Requirement groups',
+    'requirement_group' => 'Requirement group|Requirement groups',
     'requirement_group_qualifications' => 'Requirement group qualifications',
     'group_weight' => 'Group weight',
     'qualification_weight' => 'Qualification\'s weight',

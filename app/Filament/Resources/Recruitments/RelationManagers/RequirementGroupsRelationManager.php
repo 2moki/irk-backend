@@ -32,6 +32,16 @@ class RequirementGroupsRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public static function getModelLabel(): ?string
+    {
+        return trans_choice('recruitments.requirement_group', 1);
+    }
+
+    public static function getPluralModelLabel(): ?string
+    {
+        return trans_choice('recruitments.requirement_group', 1);
+    }
+
     public function form(Schema $schema): Schema
     {
         return $schema
@@ -93,7 +103,7 @@ class RequirementGroupsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->heading(__('recruitments.requirement_groups'))
+            ->heading(trans_choice('recruitments.requirement_group', 2))
             ->columns([
                 TextColumn::make('name')
                     ->label(Str::ucfirst(__('validation.attributes.name')))

@@ -6,7 +6,7 @@ return [
     'start_date' => 'Data początku',
     'end_date' => 'Data końca',
     'slots' => 'Limit przyjęć',
-    'requirement_groups' => 'Grupy wymagań',
+    'requirement_group' => 'Grupa wymagań|Grupy wymagań',
     'requirement_group_qualifications' => 'Kwalifikacje grupy wymagań',
     'group_weight' => 'Waga grupy',
     'qualification_weight' => 'Waga kwalifikacji',
