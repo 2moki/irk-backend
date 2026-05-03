@@ -31,16 +31,6 @@ class RequirementGroup extends Model
         return $this->belongsTo(Recruitment::class);
     }
 
-    //    /**
-    //     * @return BelongsToMany<Qualification, $this>
-    //     */
-    //    public function qualifications(): BelongsToMany
-    //    {
-    //        return $this->belongsToMany(Qualification::class, 'group_major_qualification')
-    //            ->withPivot('weight')
-    //            ->withTimestamps();
-    //    }
-
     public function requirementGroupQualifications(): HasMany
     {
         return $this->hasMany(RequirementGroupQualification::class);
