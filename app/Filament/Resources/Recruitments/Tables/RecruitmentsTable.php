@@ -45,7 +45,7 @@ class RecruitmentsTable
                     ->sortable(),
                 TextColumn::make('major.name')
                     ->label(trans_choice('Major', 1))
-                    ->formatStateUsing(fn(Recruitment $recruitment): string => "{$recruitment->major->name} ({$recruitment->major->load('studyMode')->studyMode->name})")
+                    ->formatStateUsing(fn(Recruitment $recruitment): string => "{$recruitment->major->name} ({$recruitment->major->studyMode->name})")
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('academicYear.start_year')

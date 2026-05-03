@@ -64,13 +64,14 @@ class RequirementGroupsRelationManager extends RelationManager
                         Select::make('qualification_id')
                             ->relationship(
                                 name: 'qualification',
-                                modifyQueryUsing: fn(Builder $query) => $query->latest()->limit(5),
+                                modifyQueryUsing: fn(Builder $query) => $query->with(['qualificationCategory'])->latest(),
                             )
                             ->required()
                             ->distinct()
                             ->getOptionLabelFromRecordUsing(
-                                fn(Qualification $record): string => "{$record->name} ({$record->load('qualificationCategory')->qualificationCategory->name})",
+                                fn(Qualification $record): string => "{$record->name} ({$record->qualificationCategory->name})",
                             )
+                            ->optionsLimit(5)
                             ->preload()
                             ->searchable(),
                         TextInput::make('weight')

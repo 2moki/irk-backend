@@ -29,7 +29,7 @@ class RecruitmentInfolist
                     ->numeric(),
                 TextEntry::make('major')
                     ->label(trans_choice('Major', 1))
-                    ->formatStateUsing(fn(Recruitment $recruitment): string => "{$recruitment->major->name} ({$recruitment->major->load('studyMode')->studyMode->name})"),
+                    ->formatStateUsing(fn(Recruitment $recruitment): string => "{$recruitment->major->name} ({$recruitment->major->studyMode->name})"),
                 TextEntry::make('academicYear.start_year')
                     ->label(trans_choice('Academic year', 1)),
                 TextEntry::make('cost.price')

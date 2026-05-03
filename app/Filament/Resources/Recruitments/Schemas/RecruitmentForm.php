@@ -40,22 +40,23 @@ class RecruitmentForm
                     ->relationship(
                         name: 'academicYear',
                         titleAttribute: 'start_year',
-                        modifyQueryUsing: fn(Builder $query) => $query->limit(5),
                     )
                     ->createOptionForm(fn(Schema $schema): Schema => AcademicYearForm::configure($schema)->columns())
                     ->required()
                     ->searchable()
+                    ->optionsLimit(5)
                     ->preload(),
                 Select::make('major_id')
                     ->label(trans_choice('Major', 1))
                     ->relationship(
                         name: 'major',
                         titleAttribute: 'name',
-                        modifyQueryUsing: fn(Builder $query) => $query->limit(5),
+                        modifyQueryUsing: fn(Builder $query) => $query->with('studyMode'),
                     )
-                    ->getOptionLabelFromRecordUsing(fn(Major $major) => "{$major->name} ({$major->load('studyMode')->studyMode->name})")
+                    ->getOptionLabelFromRecordUsing(fn(Major $major) => "{$major->name} ({$major->studyMode->name})")
                     ->required()
                     ->searchable()
+                    ->optionsLimit(5)
                     ->preload(),
                 Select::make('cost_id')
                     ->label(__('Price'))
