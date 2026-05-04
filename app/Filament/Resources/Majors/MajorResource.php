@@ -24,6 +24,10 @@ class MajorResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $modelLabel = 'Kierunek';
+
+    protected static ?string $pluralModelLabel = 'Kierunki';
+
     public static function form(Schema $schema): Schema
     {
         return MajorForm::configure($schema);
