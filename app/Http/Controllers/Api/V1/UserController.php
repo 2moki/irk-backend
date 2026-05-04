@@ -11,7 +11,7 @@ use App\Http\Resources\V1\UserResource;
 
 class UserController extends Controller
 {
-public function update(Request $request)
+public function update(UpdateUserRequest $request)
 {
     $user = $request->user();
 
