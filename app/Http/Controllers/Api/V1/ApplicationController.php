@@ -6,8 +6,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Application;
-use App\Enums\ExamType;
 
 class ApplicationController extends Controller
 {
@@ -19,7 +17,7 @@ class ApplicationController extends Controller
             ->first();
 
         return response()->json([
-            'data' => $application
+            'data' => $application,
         ]);
     }
 
@@ -39,7 +37,7 @@ class ApplicationController extends Controller
                 'required_balance' => 0,
                 'documents_delivered' => false,
                 'exam_type' => $data['exam_type'],
-            ]
+            ],
         );
 
         // jeśli istnieje update
@@ -48,7 +46,7 @@ class ApplicationController extends Controller
         ]);
 
         return response()->json([
-            'data' => $application->load('recruitments.cost')
+            'data' => $application->load('recruitments.cost'),
         ]);
     }
 }

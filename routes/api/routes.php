@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\V1\ApplicationController;
 use App\Http\Controllers\Api\V1\AuthTokenController;
+use App\Http\Controllers\Api\V1\RecruitmentController;
+use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Middleware\DecryptEmail;
 use App\Http\Middleware\Localization;
 use App\Http\Resources\V1\UserResource;
@@ -11,9 +14,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\RoutePath;
-use App\Http\Controllers\Api\V1\UserController;
-use App\Http\Controllers\Api\V1\ApplicationController;
-use \App\Http\Controllers\Api\V1\RecruitmentController;
 
 Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:')->group(function (): void {
     Route::prefix('countries')
