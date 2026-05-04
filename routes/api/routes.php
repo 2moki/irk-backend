@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Api\V1\ApplicationController;
 use App\Http\Controllers\Api\V1\AuthTokenController;
+use App\Http\Controllers\Api\V1\RecruitmentController;
+use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Middleware\DecryptEmail;
 use App\Http\Middleware\Localization;
 use App\Http\Resources\V1\UserResource;
@@ -23,6 +26,10 @@ Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:'
 
     Route::middleware(['auth:sanctum'])->group(function (): void {
         Route::get('user', fn(Request $request) => UserResource::make($request->user()))->name('user');
+        Route::put('/user', [UserController::class, 'update']);
+        Route::get('/application', [ApplicationController::class, 'show']);
+        Route::put('/application', [ApplicationController::class, 'update']);
+        Route::get('recruitments', [RecruitmentController::class, 'index']);
     });
 });
 

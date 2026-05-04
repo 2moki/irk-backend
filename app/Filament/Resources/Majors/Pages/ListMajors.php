@@ -11,6 +11,10 @@ use Filament\Resources\Pages\ListRecords;
 class ListMajors extends ListRecords
 {
     protected static string $resource = MajorResource::class;
+    public function getTitle(): string
+    {
+        return 'Kierunki';
+    }
 
     protected function getHeaderActions(): array
     {
