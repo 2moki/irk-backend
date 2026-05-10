@@ -3,15 +3,16 @@
 declare(strict_types=1);
 
 namespace App\Http\Requests\Api\V1;
+
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
     /** @return array<string, mixed> */
-   public function rules(): array
-{
-    return [
+    public function rules(): array
+    {
+        return [
             'first_name' => ['sometimes', 'string', 'min:2', 'max:100'],
             'middle_name' => ['sometimes', 'nullable', 'string', 'max:100'],
             'last_name' => ['sometimes', 'string', 'min:2', 'max:100'],
@@ -32,16 +33,16 @@ class UpdateUserRequest extends FormRequest
 
             'gender' => ['sometimes', Rule::in(['male', 'female', 'other'])],
 
-        // 🔥 NAJWAŻNIEJSZE
-        'address' => ['nullable', 'array'],
+            // 🔥 NAJWAŻNIEJSZE
+            'address' => ['nullable', 'array'],
 
-        'address.street' => ['nullable', 'string'],
-        'address.house_number' => ['nullable', 'string'],
-        'address.apartment_number' => ['nullable', 'string'],
-        'address.city' => ['nullable', 'string'],
-        'address.post_code' => ['nullable', 'string'],
-    ];
-}
+            'address.street' => ['nullable', 'string'],
+            'address.house_number' => ['nullable', 'string'],
+            'address.apartment_number' => ['nullable', 'string'],
+            'address.city' => ['nullable', 'string'],
+            'address.post_code' => ['nullable', 'string'],
+        ];
+    }
     public function messages(): array
     {
         return [

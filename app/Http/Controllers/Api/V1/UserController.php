@@ -39,7 +39,7 @@ class UserController extends Controller
                 $address = Address::create($request->input('address'));
 
                 $user->update([
-                    'address_id' => $address->id
+                    'address_id' => $address->id,
                 ]);
             }
         }
