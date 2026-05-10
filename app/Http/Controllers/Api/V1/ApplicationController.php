@@ -6,10 +6,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApplicationController extends Controller
 {
-    public function show(Request $request)
+    public function show(Request $request): Response
     {
         $application = $request->user()
             ->applications()
@@ -21,7 +22,7 @@ class ApplicationController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(Request $request): Response
     {
         $data = $request->validate([
             'exam_type' => ['required'],
