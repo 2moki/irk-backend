@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'start_date',
     'end_date',
     'slots',
+    'max_points',
     'major_id',
     'academic_year_id',
     'cost_id',
@@ -71,7 +72,7 @@ class Recruitment extends Model
     {
         return $this->belongsToMany(Application::class, 'recruitment_application')
             ->using(RecruitmentApplication::class)
-            ->withPivot(['got_points', 'max_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
+            ->withPivot(['got_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
             ->withTimestamps();
     }
 
@@ -96,6 +97,7 @@ class Recruitment extends Model
             'start_date' => 'immutable_date',
             'end_date' => 'immutable_date',
             'slots' => 'integer',
+            'max_points' => 'decimal:2',
             'is_deactivated' => 'boolean',
         ];
     }

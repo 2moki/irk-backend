@@ -44,7 +44,7 @@ class Application extends Model
     {
         return $this->belongsToMany(Recruitment::class, 'recruitment_application')
             ->using(RecruitmentApplication::class)
-            ->withPivot(['got_points', 'max_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
+            ->withPivot(['got_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
             ->withTimestamps();
     }
 

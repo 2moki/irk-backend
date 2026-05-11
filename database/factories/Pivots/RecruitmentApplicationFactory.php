@@ -26,7 +26,6 @@ class RecruitmentApplicationFactory extends Factory
             'application_id' => Application::factory(),
             'recruitment_id' => Recruitment::inRandomOrder()->first()->id ?? Recruitment::factory(),
             'got_points' => $this->faker->randomFloat(2, 0, 100),
-            'max_points' => 100.00,
             'priority' => $this->faker->numberBetween(1, 5),
             'is_paid' => $this->faker->boolean(),
             'payment_date' => $this->faker->date(),
