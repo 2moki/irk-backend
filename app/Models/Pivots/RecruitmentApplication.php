@@ -21,7 +21,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
     'application_id',
     'recruitment_id',
     'got_points',
-    'max_points',
     'priority',
     'is_paid',
     'payment_date',
@@ -65,7 +64,6 @@ class RecruitmentApplication extends Pivot
     {
         return [
             'got_points' => 'decimal:2',
-            'max_points' => 'decimal:2',
             'priority' => 'integer',
             'is_paid' => 'boolean',
             'payment_date' => 'immutable_date',

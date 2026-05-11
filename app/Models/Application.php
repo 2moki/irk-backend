@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property-read RecruitmentApplication $pivot
@@ -43,8 +44,13 @@ class Application extends Model
     {
         return $this->belongsToMany(Recruitment::class, 'recruitment_application')
             ->using(RecruitmentApplication::class)
-            ->withPivot(['got_points', 'max_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
+            ->withPivot(['got_points', 'priority', 'is_paid', 'payment_date', 'application_status'])
             ->withTimestamps();
+    }
+
+    public function recruitmentApplications(): HasMany
+    {
+        return $this->hasMany(RecruitmentApplication::class, 'application_id');
     }
 
     /**

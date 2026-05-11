@@ -24,6 +24,7 @@ class RecruitmentFactory extends Factory
             'start_date' => $this->faker->dateTimeBetween('+1 month', '+3 months'),
             'end_date' => $this->faker->dateTimeBetween('+4 months', '+6 months'),
             'slots' => $this->faker->numberBetween(30, 200),
+            'max_points' => 100.00,
             'major_id' => Major::inRandomOrder()->first()->id ?? Major::factory(),
             'academic_year_id' => AcademicYear::inRandomOrder()->first()->id ?? AcademicYear::factory(),
             'cost_id' => Cost::inRandomOrder()->first()->id ?? 1,
