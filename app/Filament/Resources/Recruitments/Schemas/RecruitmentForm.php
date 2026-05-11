@@ -35,6 +35,11 @@ class RecruitmentForm
                     ->required()
                     ->numeric()
                     ->minValue(1),
+                TextInput::make('max_points')
+                    ->label(__('recruitments.max_points'))
+                    ->required()
+                    ->numeric()
+                    ->minValue(1),
                 Select::make('academic_year_id')
                     ->label(trans_choice('Academic year', 1))
                     ->relationship(
