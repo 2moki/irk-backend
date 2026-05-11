@@ -32,6 +32,10 @@ class RecruitmentApplicationInfolist
                     ->label(__('applications.points'))
                     ->numeric(2),
 
+                TextEntry::make('recruitment.max_points')
+                    ->label(__('recruitments.max_points'))
+                    ->numeric(2),
+
                 IconEntry::make('is_paid')
                     ->label(__('applications.is_paid'))
                     ->boolean(),
