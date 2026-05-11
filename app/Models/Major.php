@@ -6,12 +6,16 @@ namespace App\Models;
 
 use Database\Factories\MajorFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property-read string $detailed_name
+ */
 #[Fillable([
     'name',
     'semesters',
@@ -24,6 +28,15 @@ class Major extends Model
 {
     /** @use HasFactory<MajorFactory> */
     use HasFactory;
+
+    public function detailedName(): Attribute
+    {
+        $this->loadMissing('studyLevel');
+
+        return Attribute::make(
+            get: fn(): string => "{$this->name} ({$this->studyLevel->name})",
+        );
+    }
 
     /**
      * @return BelongsTo<StudyLevel, $this>
