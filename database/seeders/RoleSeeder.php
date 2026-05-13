@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\Auth\PermissionType;
 use App\Enums\Auth\RoleType;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -20,7 +21,10 @@ class RoleSeeder extends Seeder
         // TODO: assign permissions
         Role::create(['name' => RoleType::EMPLOYEE->value]);
 
-        Role::create(['name' => RoleType::CANDIDATE->value]);
+        Role::create(['name' => RoleType::CANDIDATE->value])
+            ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_ACCESS->value)
+            ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_MANAGE->value)
+            ->givePermissionTo(PermissionType::MAJOR_ACCESS->value);
 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }

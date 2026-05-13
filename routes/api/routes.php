@@ -23,13 +23,21 @@ Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:'
     Route::prefix('voivodeships')
         ->as('voivodeships:')
         ->group(base_path('routes/api/v1/voivodeships.php'));
-
+    
     Route::middleware(['auth:sanctum'])->group(function (): void {
         Route::get('user', fn(Request $request) => UserResource::make($request->user()))->name('user');
         Route::put('/user', [UserController::class, 'update']);
         Route::get('/application', [ApplicationController::class, 'show']);
         Route::put('/application', [ApplicationController::class, 'update']);
         Route::get('recruitments', [RecruitmentController::class, 'index']);
+
+        Route::prefix('recruitment-applications')
+            ->as('recruitment-applications:')
+            ->group(base_path('routes/api/v1/recruitment-applications.php'));
+
+        Route::prefix('majors')
+            ->as('majors:')
+            ->group(base_path('routes/api/v1/majors.php'));
     });
 });
 
