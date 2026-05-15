@@ -24,6 +24,7 @@ class RoleSeeder extends Seeder
         Role::create(['name' => RoleType::CANDIDATE->value])
             ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_ACCESS->value)
             ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_MANAGE->value)
+            ->givePermissionTo(PermissionType::RECRUITMENT_ACCESS->value)
             ->givePermissionTo(PermissionType::MAJOR_ACCESS->value);
 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();

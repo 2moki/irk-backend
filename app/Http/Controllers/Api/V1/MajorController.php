@@ -17,7 +17,6 @@ class MajorController extends Controller
         $this->authorize('viewAny', Major::class);
 
         $majors = QueryBuilder::for(Major::class)
-            ->with(['studyLevel', 'studyMode', 'degreeTitle'])
             ->paginate(config()->integer('api.pagination.per_page'));
 
         return response()->json(MajorResource::collection($majors));
@@ -26,8 +25,6 @@ class MajorController extends Controller
     public function show(Major $major): Response
     {
         $this->authorize('view', $major);
-
-        $major->loadMissing(['studyLevel', 'studyMode', 'degreeTitle']);
 
         return response()->json(MajorResource::make($major));
     }

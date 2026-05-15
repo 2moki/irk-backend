@@ -29,6 +29,8 @@ class Major extends Model
     /** @use HasFactory<MajorFactory> */
     use HasFactory;
 
+    protected $with = ['studyLevel', 'studyMode', 'degreeTitle'];
+
     public function detailedName(): Attribute
     {
         $this->loadMissing('studyLevel');

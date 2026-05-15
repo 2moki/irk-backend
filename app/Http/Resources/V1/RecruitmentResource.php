@@ -28,6 +28,13 @@ class RecruitmentResource extends JsonResource
             'academic_year_id' => $this->resource->academic_year_id,
             'cost_id' => $this->resource->cost_id,
             'status' => $this->resource->status,
+            'price' => $this->whenLoaded('cost', fn() => $this->resource->cost->price),
+            'major' => MajorResource::make($this->whenLoaded('major')),
+            'academic_year' => $this->whenLoaded('academicYear', fn() => [
+                'id' => $this->resource->academicYear->id,
+                'start_year' => $this->resource->academicYear->start_year,
+                'billing_type' => $this->resource->academicYear->billing_type,
+            ]),
             'created_at' => DateResource::make($this->resource->created_at),
             'updated_at' => DateResource::make($this->resource->updated_at),
         ];

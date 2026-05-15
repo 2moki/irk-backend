@@ -9,5 +9,7 @@ enum PermissionType: string
     case RECRUITMENT_APPLICATION_ACCESS = 'recruitment_application_access';
     case RECRUITMENT_APPLICATION_MANAGE = 'recruitment_application_manage';
 
+    case RECRUITMENT_ACCESS = 'recruitment_access';
+
     case MAJOR_ACCESS = 'major_access';
 }
