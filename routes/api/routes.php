@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Api\V1\ApplicationController;
 use App\Http\Controllers\Api\V1\AuthTokenController;
-use App\Http\Controllers\Api\V1\RecruitmentController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Middleware\DecryptEmail;
 use App\Http\Middleware\Localization;
@@ -29,7 +28,18 @@ Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:'
         Route::put('/user', [UserController::class, 'update']);
         Route::get('/application', [ApplicationController::class, 'show']);
         Route::put('/application', [ApplicationController::class, 'update']);
-        Route::get('recruitments', [RecruitmentController::class, 'index']);
+
+        Route::prefix('recruitments')
+            ->as('recruitments:')
+            ->group(base_path('routes/api/v1/recruitments.php'));
+
+        Route::prefix('recruitment-applications')
+            ->as('recruitment-applications:')
+            ->group(base_path('routes/api/v1/recruitment-applications.php'));
+
+        Route::prefix('majors')
+            ->as('majors:')
+            ->group(base_path('routes/api/v1/majors.php'));
     });
 });
 
