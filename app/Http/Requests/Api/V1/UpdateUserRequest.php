@@ -16,6 +16,8 @@ class UpdateUserRequest extends FormRequest
             'first_name' => ['sometimes', 'string', 'min:2', 'max:100'],
             'middle_name' => ['sometimes', 'nullable', 'string', 'max:100'],
             'last_name' => ['sometimes', 'string', 'min:2', 'max:100'],
+            'current_password' => ['sometimes', 'required_with:password', 'string'],
+            'password' => ['sometimes', 'confirmed', 'string', 'min:8'],
 
             'email' => [
                 'sometimes',
@@ -41,6 +43,7 @@ class UpdateUserRequest extends FormRequest
             'address.apartment_number' => ['nullable', 'string'],
             'address.city' => ['nullable', 'string'],
             'address.post_code' => ['nullable', 'string'],
+            'address.country_id' => ['nullable', 'integer', 'exists:countries,id'],
         ];
     }
     public function messages(): array

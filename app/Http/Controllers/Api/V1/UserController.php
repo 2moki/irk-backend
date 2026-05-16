@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\UpdateUserRequest;
 use App\Models\Address;
+use Illuminate\Support\Facades\Hash; // 🔥 Wymagane do weryfikacji hasła
+use Illuminate\Validation\ValidationException; // 🔥 Do rzucania błędów walidacji
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -15,7 +17,22 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        // 🔹 update user basic data
+        // 1. Zmiana hasła (jeśli przesłano pole password)
+        if ($request->filled('password')) {
+            // Sprawdzenie, czy obecne hasło zgadza się z bazą
+            if (! Hash::check($request->input('current_password'), $user->password)) {
+                throw ValidationException::withMessages([
+                    'current_password' => ['Podane aktualne hasło jest niepoprawne.'],
+                ]);
+            }
+
+            // Aktualizacja hasła z automatycznym haszowaniem (Laravel 10/11 haszuje automatycznie, ale dla pewności dajemy Hash::make)
+            $user->update([
+                'password' => Hash::make($request->input('password')),
+            ]);
+        }
+
+        // 2. Aktualizacja podstawowych danych użytkownika
         $user->update($request->only([
             'first_name',
             'middle_name',
@@ -28,16 +45,12 @@ class UserController extends Controller
             'gender',
         ]));
 
-        // 🔥 ADDRESS FIX
+        // 3. Adres (Twój dotychczasowy kod)
         if ($request->has('address')) {
-
             if ($user->address_id) {
-                // update existing
                 $user->address()->update($request->input('address'));
             } else {
-                // create new
                 $address = Address::create($request->input('address'));
-
                 $user->update([
                     'address_id' => $address->id,
                 ]);
