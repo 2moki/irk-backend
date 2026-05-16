@@ -15,7 +15,8 @@ class RecruitmentApplicationPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(PermissionType::RECRUITMENT_APPLICATION_ACCESS->value);
+        return $user->can(PermissionType::RECRUITMENT_APPLICATION_ACCESS_ANY->value)
+            || $user->can(PermissionType::RECRUITMENT_APPLICATION_ACCESS_OWN->value);
     }
 
     /**
@@ -23,8 +24,12 @@ class RecruitmentApplicationPolicy
      */
     public function view(User $user, RecruitmentApplication $recruitmentApplication): bool
     {
+        if ($user->can(PermissionType::RECRUITMENT_APPLICATION_ACCESS_ANY->value)) {
+            return true;
+        }
+
         return $recruitmentApplication->application->user_id === $user->id
-            && $user->can(PermissionType::RECRUITMENT_APPLICATION_ACCESS->value);
+            && $user->can(PermissionType::RECRUITMENT_APPLICATION_ACCESS_OWN->value);
     }
 
     /**
@@ -32,7 +37,8 @@ class RecruitmentApplicationPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can(PermissionType::RECRUITMENT_APPLICATION_MANAGE_ANY->value)
+            || $user->can(PermissionType::RECRUITMENT_APPLICATION_MANAGE_OWN->value);
     }
 
     /**
@@ -40,7 +46,12 @@ class RecruitmentApplicationPolicy
      */
     public function update(User $user, RecruitmentApplication $recruitmentApplication): bool
     {
-        return false;
+        if ($user->can(PermissionType::RECRUITMENT_APPLICATION_MANAGE_ANY->value)) {
+            return true;
+        }
+
+        return $recruitmentApplication->application->user_id === $user->id
+            && $user->can(PermissionType::RECRUITMENT_APPLICATION_MANAGE_OWN->value);
     }
 
     /**
@@ -48,22 +59,11 @@ class RecruitmentApplicationPolicy
      */
     public function delete(User $user, RecruitmentApplication $recruitmentApplication): bool
     {
-        return false;
-    }
+        if ($user->can(PermissionType::RECRUITMENT_APPLICATION_MANAGE_ANY->value)) {
+            return true;
+        }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, RecruitmentApplication $recruitmentApplication): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, RecruitmentApplication $recruitmentApplication): bool
-    {
-        return false;
+        return $recruitmentApplication->application->user_id === $user->id
+            && $user->can(PermissionType::RECRUITMENT_APPLICATION_MANAGE_OWN->value);
     }
 }

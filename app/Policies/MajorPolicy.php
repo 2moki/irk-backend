@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Policies;
 
 use App\Enums\Auth\PermissionType;
-use App\Models\Major;
 use App\Models\User;
 
 class MajorPolicy
@@ -21,7 +20,7 @@ class MajorPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Major $major): bool
+    public function view(User $user): bool
     {
         return $user->can(PermissionType::MAJOR_ACCESS->value);
     }
@@ -31,38 +30,22 @@ class MajorPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can(PermissionType::MAJOR_MANAGE->value);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Major $major): bool
+    public function update(User $user): bool
     {
-        return false;
+        return $user->can(PermissionType::MAJOR_MANAGE->value);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Major $major): bool
+    public function delete(User $user): bool
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Major $major): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Major $major): bool
-    {
-        return false;
+        return $user->can(PermissionType::MAJOR_MANAGE->value);
     }
 }

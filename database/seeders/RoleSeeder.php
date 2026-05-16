@@ -18,12 +18,12 @@ class RoleSeeder extends Seeder
         Role::create(['name' => RoleType::ADMIN->value])
             ->givePermissionTo(Permission::all());
 
-        // TODO: assign permissions
-        Role::create(['name' => RoleType::EMPLOYEE->value]);
+        Role::create(['name' => RoleType::EMPLOYEE->value])
+            ->givePermissionTo(Permission::all());
 
         Role::create(['name' => RoleType::CANDIDATE->value])
-            ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_ACCESS->value)
-            ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_MANAGE->value)
+            ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_ACCESS_OWN->value)
+            ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_MANAGE_OWN->value)
             ->givePermissionTo(PermissionType::RECRUITMENT_ACCESS->value)
             ->givePermissionTo(PermissionType::MAJOR_ACCESS->value);
 
