@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use App\Models\Application;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,7 +24,7 @@ class ApplicationFactory extends Factory
             'money_balance' => $this->faker->randomFloat(2, 0, 500),
             'required_balance' => $this->faker->randomElement([85.00, 100.00, 150.00]),
             'documents_delivered' => $this->faker->boolean(),
-            'exam_type' => $this->faker->randomElement(ExamType::cases()),
+            'exam_type' => $this->faker->randomElement(ExamTypeEnum::cases()),
         ];
     }
 }

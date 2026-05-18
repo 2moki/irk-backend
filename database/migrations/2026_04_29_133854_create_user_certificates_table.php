@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use App\Models\School;
 use App\Models\User;
 use App\Models\UserDocument;
@@ -16,7 +16,7 @@ return new class () extends Migration {
         Schema::create('user_certificates', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->enum('exam_type', ExamType::cases());
+            $table->enum('exam_type', ExamTypeEnum::cases());
             $table->foreignIdFor(School::class)->nullable()->constrained()->nullOnDelete();
             $table->string('school_custom_name')->nullable();
             $table->date('issue_date');

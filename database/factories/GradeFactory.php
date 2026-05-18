@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use App\Models\Grade;
 use App\Models\GradeMapping;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,7 +26,7 @@ class GradeFactory extends Factory
             'multiplier' => $this->faker->randomElement([0.5, 1.0, 1.5]),
             'is_bilingual' => $this->faker->boolean(20),
             'grade_mapping_id' => GradeMapping::inRandomOrder()->first()->id ?? GradeMapping::factory(),
-            'exam_type' => $this->faker->randomElement(ExamType::cases()),
+            'exam_type' => $this->faker->randomElement(ExamTypeEnum::cases()),
         ];
     }
 }

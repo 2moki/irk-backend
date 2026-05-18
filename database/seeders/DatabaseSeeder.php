@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
 
+            ExamTypeSeeder::class,
             StudyLevelSeeder::class,
             StudyModeSeeder::class,
             DegreeTitleSeeder::class,
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             GradeMappingSeeder::class,
             GradeSeeder::class,
             AcademicYearSeeder::class,
+            QualificationCategorySeeder::class,
             QualificationSeeder::class,
 
             MajorSeeder::class,
@@ -36,6 +38,8 @@ class DatabaseSeeder extends Seeder
 
             CandidateSeeder::class,
             RecruitmentApplicationSeeder::class,
+
+            UserCertificateSeeder::class,
         ]);
     }
 }

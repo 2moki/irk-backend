@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use App\Models\Pivots\RecruitmentApplication;
 use Database\Factories\ApplicationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -62,7 +62,7 @@ class Application extends Model
             'money_balance' => 'decimal:2',
             'required_balance' => 'decimal:2',
             'documents_delivered' => 'boolean',
-            'exam_type' => ExamType::class,
+            'exam_type' => ExamTypeEnum::class,
         ];
     }
 }

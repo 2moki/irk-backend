@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use Database\Factories\UserCertificateFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,7 +66,7 @@ class UserCertificate extends Model
     protected function casts(): array
     {
         return [
-            'exam_type' => ExamType::class,
+            'exam_type' => ExamTypeEnum::class,
             'issue_date' => 'immutable_date',
             'is_annex' => 'boolean',
             'is_verified' => 'boolean',
