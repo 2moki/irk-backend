@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\UpdateUserRequest;
 use App\Models\Address;
-use Illuminate\Support\Facades\Hash; // 🔥 Wymagane do weryfikacji hasła
-use Illuminate\Validation\ValidationException; // 🔥 Do rzucania błędów walidacji
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -17,16 +17,14 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        // 1. Zmiana hasła (jeśli przesłano pole password)
+        // 1. Zmiana hasła
         if ($request->filled('password')) {
-            // Sprawdzenie, czy obecne hasło zgadza się z bazą
             if (! Hash::check($request->input('current_password'), $user->password)) {
                 throw ValidationException::withMessages([
                     'current_password' => ['Podane aktualne hasło jest niepoprawne.'],
                 ]);
             }
 
-            // Aktualizacja hasła z automatycznym haszowaniem (Laravel 10/11 haszuje automatycznie, ale dla pewności dajemy Hash::make)
             $user->update([
                 'password' => Hash::make($request->input('password')),
             ]);
@@ -45,20 +43,48 @@ class UserController extends Controller
             'gender',
         ]));
 
-        // 3. Adres (Twój dotychczasowy kod)
-        if ($request->has('address')) {
-            if ($user->address_id) {
-                $user->address()->update($request->input('address'));
+        // 3. Aktualizacja lub utworzenie adresu GŁÓWNEGO
+        // Pobieramy tylko te dane, które należą do tabeli adresów z głównego poziomu requestu
+        $addressData = $request->only(['street', 'house_number', 'apartment_number', 'city', 'post_code', 'country_id']);
+
+        // Warunek: wykonaj zapis tylko jeśli przesłano przynajmniej podstawowe dane adresowe
+        if (!empty($addressData['street']) || !empty($addressData['city'])) {
+            if ($user->address_id && $user->address) {
+                $user->address->update($addressData);
             } else {
-                $address = Address::create($request->input('address'));
+                $address = Address::create($addressData);
                 $user->update([
                     'address_id' => $address->id,
                 ]);
             }
         }
 
+        // 4. Aktualizacja, utworzenie lub usunięcie adresu KORESPONDENCYJNEGO
+        if ($request->input('has_correspondence') === true && $request->has('mailing_address')) {
+            $mailingData = $request->input('mailing_address');
+
+            if ($user->mailing_address_id && $user->mailingAddress) {
+                $user->mailingAddress->update($mailingData);
+            } else {
+                $mailingAddress = Address::create($mailingData);
+                $user->update([
+                    'mailing_address_id' => $mailingAddress->id,
+                ]);
+            }
+        } else {
+            // Jeśli użytkownik odznaczył "Inny adres do korespondencji", odpinamy i usuwamy go z bazy
+            if ($user->mailing_address_id) {
+                $oldMailingId = $user->mailing_address_id;
+                $user->update([
+                    'mailing_address_id' => null,
+                ]);
+                Address::destroy($oldMailingId);
+            }
+        }
+
+        // Zwracamy użytkownika ze świeżymi relacjami (wymagane dla poprawnego działania sklepu Pinia)
         return response()->json([
-            'data' => $user->fresh('address'),
+            'data' => $user->fresh(['address.country', 'mailingAddress.country']),
         ]);
     }
 }
