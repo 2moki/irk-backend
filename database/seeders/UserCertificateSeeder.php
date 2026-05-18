@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\ExamTypeEnum;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\UserCertificate;
 use App\Models\User;
+use App\Models\UserCertificate;
 use Illuminate\Database\Seeder;
 
 class UserCertificateSeeder extends Seeder

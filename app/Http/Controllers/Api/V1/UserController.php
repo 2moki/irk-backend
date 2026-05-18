@@ -48,7 +48,7 @@ class UserController extends Controller
         $addressData = $request->only(['street', 'house_number', 'apartment_number', 'city', 'post_code', 'country_id']);
 
         // Warunek: wykonaj zapis tylko jeśli przesłano przynajmniej podstawowe dane adresowe
-        if (!empty($addressData['street']) || !empty($addressData['city'])) {
+        if (! empty($addressData['street']) || ! empty($addressData['city'])) {
             if ($user->address_id && $user->address) {
                 $user->address->update($addressData);
             } else {
