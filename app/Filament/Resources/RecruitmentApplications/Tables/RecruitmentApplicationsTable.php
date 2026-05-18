@@ -12,6 +12,7 @@ use App\Models\Recruitment;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ExportAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -141,13 +142,18 @@ class RecruitmentApplicationsTable
                 ViewAction::make(),
             ])
             ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ExportBulkAction::make()
+                        ->label('Eksportuj wybrane do CSV')
+                        ->exporter(RecruitmentApplicationExport::class)
+                        ->columnMapping(false),
+                ]),
+
                 ExportAction::make()
                     ->label('Eksportuj do CSV')
                     ->exporter(RecruitmentApplicationExport::class)
                     ->columnMapping(false),
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
             ]);
     }
 }
