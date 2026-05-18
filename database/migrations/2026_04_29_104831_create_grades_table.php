@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use App\Models\GradeMapping;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -19,7 +19,7 @@ return new class () extends Migration {
             $table->decimal('multiplier', 5, 2)->default(1.00);
             $table->boolean('is_bilingual')->default(false);
             $table->foreignIdFor(GradeMapping::class)->constrained()->cascadeOnDelete();
-            $table->enum('exam_type', ExamType::cases());
+            $table->enum('exam_type', ExamTypeEnum::cases());
             $table->timestamps();
         });
     }

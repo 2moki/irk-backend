@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use Database\Factories\GradeFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,7 +44,7 @@ class Grade extends Model
             'conversion_rate' => 'decimal:2',
             'multiplier' => 'decimal:2',
             'is_bilingual' => 'boolean',
-            'exam_type' => ExamType::class,
+            'exam_type' => ExamTypeEnum::class,
         ];
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\ExamType;
+use App\Enums\ExamTypeEnum;
 use App\Models\School;
 use App\Models\User;
 use App\Models\UserCertificate;
@@ -22,7 +22,7 @@ class UserCertificateFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
-            'exam_type' => $this->faker->randomElement(ExamType::cases()),
+            'exam_type' => $this->faker->randomElement(ExamTypeEnum::cases()),
             'school_id' => School::inRandomOrder()->first()->id ?? School::factory(),
             'school_custom_name' => null,
             'issue_date' => $this->faker->date(),
