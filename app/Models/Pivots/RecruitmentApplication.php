@@ -28,13 +28,13 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 ])]
 class RecruitmentApplication extends Pivot
 {
-    // --- Dodane na potrzeby eksportu Filamenta ---
-    protected $primaryKey = 'id';
-    public $incrementing = true;
     // ---------------------------------------------
 
     /** @use HasFactory<RecruitmentApplicationFactory> */
     use HasFactory;
+    public $incrementing = true;
+    // --- Dodane na potrzeby eksportu Filamenta ---
+    protected $primaryKey = 'id';
 
     /**
      * @return BelongsTo<Application, $this>
