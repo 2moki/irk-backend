@@ -51,7 +51,12 @@ class RecruitmentApplicationResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with(['recruitment.major.studyLevel', 'recruitment.major.studyMode']);
+        return parent::getEloquentQuery()->with([
+            'recruitment.major.studyLevel',
+            'recruitment.major.studyMode',
+            'application.user.address.country',
+            'application.user.address.voivodeship',
+        ]);
     }
 
     public static function getPages(): array
