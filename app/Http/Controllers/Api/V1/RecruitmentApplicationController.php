@@ -7,13 +7,14 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\RecruitmentApplicationResource;
 use App\Models\Pivots\RecruitmentApplication;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class RecruitmentApplicationController extends Controller
 {
-    public function index(): AnonymousResourceCollection
+    public function index(Request $request): AnonymousResourceCollection
     {
         $this->authorize('viewAny', RecruitmentApplication::class);
 
@@ -24,7 +25,11 @@ class RecruitmentApplicationController extends Controller
             ->whereHas('application', function ($query): void {
                 $query->where('user_id', auth()->id());
             })
-            ->paginate(config()->integer('api.pagination.per_page'));
+            ->paginate(
+                $request->has('per_page')
+                ? $request->integer('per_page')
+                : config()->integer('api.pagination.per_page'),
+            );
 
         return RecruitmentApplicationResource::collection($recruitmentApplications);
     }
