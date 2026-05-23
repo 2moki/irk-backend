@@ -35,6 +35,7 @@ class RecruitmentApplication extends Pivot
     public $incrementing = true;
     // --- Dodane na potrzeby eksportu Filamenta ---
     protected $primaryKey = 'id';
+    protected $foreignKey = 'recruitment_application_id';
 
     /**
      * @return BelongsTo<Application, $this>

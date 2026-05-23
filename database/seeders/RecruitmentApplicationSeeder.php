@@ -11,6 +11,9 @@ class RecruitmentApplicationSeeder extends Seeder
 {
     public function run(): void
     {
-        RecruitmentApplication::factory()->count(10)->create();
+        RecruitmentApplication::factory()
+            ->withLanguages()
+            ->count(10)
+            ->create();
     }
 }

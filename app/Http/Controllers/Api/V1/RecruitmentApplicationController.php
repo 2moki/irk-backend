@@ -19,7 +19,7 @@ class RecruitmentApplicationController extends Controller
         $this->authorize('viewAny', RecruitmentApplication::class);
 
         $recruitmentApplications = QueryBuilder::for(RecruitmentApplication::class)
-            ->allowedIncludes('recruitment', 'application', 'recruitment.academicYear')
+            ->allowedIncludes('recruitment', 'application', 'recruitment.academicYear', 'languages')
             ->allowedFilters('application_status')
             ->allowedSorts('application_status')
             ->whereHas('application', function ($query): void {
@@ -41,7 +41,7 @@ class RecruitmentApplicationController extends Controller
         $recruitmentApplication = QueryBuilder::for(
             RecruitmentApplication::where('id', $recruitmentApplication->id),
         )
-            ->allowedIncludes('recruitment', 'application', 'recruitment.academicYear')
+            ->allowedIncludes('recruitment', 'application', 'recruitment.academicYear', 'languages')
             ->firstOrFail();
 
         return response()->json(RecruitmentApplicationResource::make($recruitmentApplication));
