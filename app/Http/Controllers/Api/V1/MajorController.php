@@ -17,6 +17,7 @@ class MajorController extends Controller
         $this->authorize('viewAny', Major::class);
 
         $majors = QueryBuilder::for(Major::class)
+            ->allowedIncludes('languages')
             ->paginate(config()->integer('api.pagination.per_page'));
 
         return response()->json(MajorResource::collection($majors));
@@ -25,6 +26,10 @@ class MajorController extends Controller
     public function show(Major $major): Response
     {
         $this->authorize('view', $major);
+
+        $major = QueryBuilder::for(Major::where('id', $major->id))
+            ->allowedIncludes('languages')
+            ->firstOrFail();
 
         return response()->json(MajorResource::make($major));
     }

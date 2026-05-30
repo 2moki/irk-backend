@@ -26,6 +26,7 @@ class MajorResource extends JsonResource
             'study_mode' => $this->resource->studyMode?->name,
             'degree_title' => $this->resource->degreeTitle?->name,
             'languages_limit' => $this->resource->languages_limit,
+            'languages' => LanguageResource::collection($this->whenLoaded('languages')),
             'created_at' => DateResource::make($this->resource->created_at),
             'updated_at' => DateResource::make($this->resource->updated_at),
         ];

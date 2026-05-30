@@ -25,7 +25,8 @@ class RoleSeeder extends Seeder
             ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_ACCESS_OWN->value)
             ->givePermissionTo(PermissionType::RECRUITMENT_APPLICATION_MANAGE_OWN->value)
             ->givePermissionTo(PermissionType::RECRUITMENT_ACCESS->value)
-            ->givePermissionTo(PermissionType::MAJOR_ACCESS->value);
+            ->givePermissionTo(PermissionType::MAJOR_ACCESS->value)
+            ->givePermissionTo(PermissionType::LANGUAGE_ACCESS->value);
 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }

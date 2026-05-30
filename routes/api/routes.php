@@ -40,6 +40,10 @@ Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:'
         Route::prefix('majors')
             ->as('majors:')
             ->group(base_path('routes/api/v1/majors.php'));
+
+        Route::prefix('languages')
+            ->as('languages:')
+            ->group(base_path('routes/api/v1/languages.php'));
     });
 });
 
