@@ -22,6 +22,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Builder;
 
 #[Fillable([
     'first_name',
@@ -139,5 +140,11 @@ class User extends Authenticatable implements HasName, FilamentUser
             'password' => 'hashed',
             'gender' => Gender::class,
         ];
+    }
+    public function scopeCandidates(Builder $query): Builder
+    {
+        return $query->whereHas('roles', function ($q) {
+            $q->where('name', 'candidate');
+        });
     }
 }
