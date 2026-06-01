@@ -1,22 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
+use App\Models\Application;
 use App\Models\Pivots\RecruitmentApplication;
 use App\Models\Pivots\RequirementGroupQualification;
+use App\Models\QualificationScore;
 use App\Models\RequirementGroup;
 use App\Models\UserCertificate;
-use App\Models\Application;
-use App\Models\QualificationScore;
 
 class PointCalculatorService
 {
     /**
      * Calculates total points received in application
-     * 
+     *
      * @param RecruitmentApplication $application Student's application to a recruitment
      * @return int Total points received in application
-    */
+     */
     public static function calculate(RecruitmentApplication $application): int
     {
         //Parent application
@@ -31,7 +33,7 @@ class PointCalculatorService
         dump('User name: ' . $pappl->user->id);
 
         //No certificates submitted
-        if(count($userCertificats) == 0) {
+        if (count($userCertificats) === 0) {
             return -1;
         }
 
@@ -44,7 +46,7 @@ class PointCalculatorService
             //Get related scores to cercificate
             $scores = QualificationScore::query()->where('user_certificate_id', $cert->id)->get();
             //Do not run calculations if cercificate does not have any scores (for some reason)
-            if(count($scores) === 0) {
+            if (count($scores) === 0) {
                 $pointsTotal[$cert->id] = 0;
                 continue;
             }
@@ -70,7 +72,7 @@ class PointCalculatorService
                 //sort received scores
                 rsort($groupScores);
                 //add to points top x qualifications
-                for ($i=0; $i < $rqgrp->qualifications_count; $i++) { 
+                for ($i = 0; $i < $rqgrp->qualifications_count; $i++) {
                     $points += $groupScores[$i];
                 }
             }

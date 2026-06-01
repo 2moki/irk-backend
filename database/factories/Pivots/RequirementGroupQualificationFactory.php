@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories\Pivots;
 
 use App\Models\Model;
 use App\Models\Qualification;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\RequirementGroup;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends Factory<Model>
@@ -22,7 +24,7 @@ class RequirementGroupQualificationFactory extends Factory
         return [
             'requirement_group_id' => RequirementGroup::inRandomOrder()->first()?->id ?? RequirementGroupFactory::new(),
             'qualification_id' => Qualification::inRandomOrder()->first()?->id ?? QualificationFactory::new(),
-            'weight' => $this->faker->numberBetween(1,4)
+            'weight' => $this->faker->numberBetween(1, 4),
         ];
     }
 }

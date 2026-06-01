@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature;
 
 use App\Enums\QualificationCategoryEnum;
-use App\Filament\Resources\Qualifications\Pages\CreateQualification;
 use App\Models\Pivots\RecruitmentApplication;
 use App\Models\Pivots\RequirementGroupQualification;
 use App\Models\Qualification;
-use App\Services\PointCalculatorService;
-use App\Models\RequirementGroup;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use App\Models\Recruitment;
 use App\Models\QualificationScore;
+use App\Models\Recruitment;
+use App\Models\RequirementGroup;
 use App\Models\UserCertificate;
+use App\Services\PointCalculatorService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function PHPUnit\Framework\assertEquals;
-use function PHPUnit\Framework\assertGreaterThan;
+
+use Tests\TestCase;
 
 class PointCalculatorServiceTest extends TestCase
 {
@@ -31,52 +32,52 @@ class PointCalculatorServiceTest extends TestCase
         $requirementGroup = RequirementGroup::factory()->create([
             'weight' => 1,
             'qualifications_count' => 3,
-            'recruitment_id' => $recruitment
+            'recruitment_id' => $recruitment,
         ]);
 
         $qualifications = Qualification::factory()
-        ->count(3)
-        ->sequence(
-            ['name' => 'Matematyka'],
-            ['name' => 'J. Polski'],
-            ['name' => 'J. Angielski']
-        )
-        ->create(
-            ['qualification_category_id' => QualificationCategoryEnum::MATURA_GRADE->id()]
-        );
+            ->count(3)
+            ->sequence(
+                ['name' => 'Matematyka'],
+                ['name' => 'J. Polski'],
+                ['name' => 'J. Angielski'],
+            )
+            ->create(
+                ['qualification_category_id' => QualificationCategoryEnum::MATURA_GRADE->id()],
+            );
 
         $requirements = RequirementGroupQualification::factory()
-        ->count(3)
-        ->sequence(
-            ['qualification_id' => $qualifications[0]],
-            ['qualification_id' => $qualifications[1]],
-            ['qualification_id' => $qualifications[2]],
-        )
-        ->create([
-            'requirement_group_id' => $requirementGroup,
-            'weight' => 1
-        ]);
+            ->count(3)
+            ->sequence(
+                ['qualification_id' => $qualifications[0]],
+                ['qualification_id' => $qualifications[1]],
+                ['qualification_id' => $qualifications[2]],
+            )
+            ->create([
+                'requirement_group_id' => $requirementGroup,
+                'weight' => 1,
+            ]);
 
         //User and application
 
         //application
         $recruitmentApplication = RecruitmentApplication::factory()->create(
-            ['recruitment_id' => $recruitment]
+            ['recruitment_id' => $recruitment],
         );
         //user has been created automatically
         $user = $recruitmentApplication->application->user;
         //Finnaly add scores with perfect value
         $scores = QualificationScore::factory()
-        ->count(3)
-        ->sequence(
-            ['qualification_id' => $qualifications[0]],
-            ['qualification_id' => $qualifications[1]],
-            ['qualification_id' => $qualifications[2]]
-        )
-        ->for(UserCertificate::factory()->create(['user_id' => $user]))
-        ->create(
-            ['value' => 100]
-        );
+            ->count(3)
+            ->sequence(
+                ['qualification_id' => $qualifications[0]],
+                ['qualification_id' => $qualifications[1]],
+                ['qualification_id' => $qualifications[2]],
+            )
+            ->for(UserCertificate::factory()->create(['user_id' => $user]))
+            ->create(
+                ['value' => 100],
+            );
 
         $val = PointCalculatorService::calculate($recruitmentApplication);
 
@@ -84,12 +85,13 @@ class PointCalculatorServiceTest extends TestCase
         assertEquals(300, $val, '');
     }
 
-    public function test_multipleCerts(): void {
+    public function test_multipleCerts(): void
+    {
         $recruitment = Recruitment::factory()->create();
         $requirementGroup = RequirementGroup::factory()->create([
             'weight' => 1,
             'qualifications_count' => 3,
-            'recruitment_id' => $recruitment
+            'recruitment_id' => $recruitment,
         ]);
 
         $mat = $this->createQualification("Matematyka", QualificationCategoryEnum::MATURA_GRADE, $requirementGroup, 1);
@@ -98,7 +100,7 @@ class PointCalculatorServiceTest extends TestCase
 
         //scores
         $recruitmentApplication = RecruitmentApplication::factory()->create(
-            ['recruitment_id' => $recruitment]
+            ['recruitment_id' => $recruitment],
         );
 
         $user = $recruitmentApplication->application->user;
@@ -122,18 +124,19 @@ class PointCalculatorServiceTest extends TestCase
         assertEquals(150, $val, '');
     }
 
-    public function test_multipleGroups(): void {
+    public function test_multipleGroups(): void
+    {
         $recruitment = Recruitment::factory()->create();
         $requirementGroup = RequirementGroup::factory()->create([
             'weight' => 1,
             'qualifications_count' => 3,
-            'recruitment_id' => $recruitment
+            'recruitment_id' => $recruitment,
         ]);
         //all exams worth twice as much
         $maturaExt = RequirementGroup::factory()->create([
             'weight' => 2,
             'qualifications_count' => 3,
-            'recruitment_id' => $recruitment
+            'recruitment_id' => $recruitment,
         ]);
 
         $mat = $this->createQualification("Matematyka", QualificationCategoryEnum::MATURA_GRADE, $requirementGroup, 1);
@@ -145,7 +148,7 @@ class PointCalculatorServiceTest extends TestCase
         $angExt = $this->createQualification("Angielski", QualificationCategoryEnum::MATURA_EXT_GRADE, $maturaExt, 1);
         //scores
         $recruitmentApplication = RecruitmentApplication::factory()->create(
-            ['recruitment_id' => $recruitment]
+            ['recruitment_id' => $recruitment],
         );
 
         $user = $recruitmentApplication->application->user;
@@ -163,12 +166,13 @@ class PointCalculatorServiceTest extends TestCase
         assertEquals(9, $val, '');
     }
 
-    public function test_differentWeights(): void {
+    public function test_differentWeights(): void
+    {
         $recruitment = Recruitment::factory()->create();
         $requirementGroup = RequirementGroup::factory()->create([
             'weight' => 1,
             'qualifications_count' => 3,
-            'recruitment_id' => $recruitment
+            'recruitment_id' => $recruitment,
         ]);
 
         //Math worth twice as much
@@ -177,7 +181,7 @@ class PointCalculatorServiceTest extends TestCase
         $ang = $this->createQualification("Angielski", QualificationCategoryEnum::MATURA_GRADE, $requirementGroup, 1);
 
         $recruitmentApplication = RecruitmentApplication::factory()->create(
-            ['recruitment_id' => $recruitment]
+            ['recruitment_id' => $recruitment],
         );
 
         $user = $recruitmentApplication->application->user;
@@ -191,13 +195,14 @@ class PointCalculatorServiceTest extends TestCase
         assertEquals(4, $val, '');
     }
 
-    public function test_qualificationCount(): void {
+    public function test_qualificationCount(): void
+    {
         $recruitment = Recruitment::factory()->create();
         //only two most valuable scores count towards the recruitment
         $requirementGroup = RequirementGroup::factory()->create([
             'weight' => 1,
             'qualifications_count' => 2,
-            'recruitment_id' => $recruitment
+            'recruitment_id' => $recruitment,
         ]);
 
         //Math worth twice as much
@@ -206,7 +211,7 @@ class PointCalculatorServiceTest extends TestCase
         $ang = $this->createQualification("Angielski", QualificationCategoryEnum::MATURA_GRADE, $requirementGroup, 1);
 
         $recruitmentApplication = RecruitmentApplication::factory()->create(
-            ['recruitment_id' => $recruitment]
+            ['recruitment_id' => $recruitment],
         );
 
         $user = $recruitmentApplication->application->user;
@@ -221,13 +226,14 @@ class PointCalculatorServiceTest extends TestCase
         assertEquals(8, $val, '');
     }
 
-     public function test_unusedScore(): void {
+    public function test_unusedScore(): void
+    {
         $recruitment = Recruitment::factory()->create();
         //only two most valuable scores count towards the recruitment
         $requirementGroup = RequirementGroup::factory()->create([
             'weight' => 1,
             'qualifications_count' => 2,
-            'recruitment_id' => $recruitment
+            'recruitment_id' => $recruitment,
         ]);
 
         //Math worth twice as much
@@ -237,7 +243,7 @@ class PointCalculatorServiceTest extends TestCase
         $chem = $this->createQualification("Chemia", QualificationCategoryEnum::MATURA_EXT_GRADE, $requirementGroup, false);
 
         $recruitmentApplication = RecruitmentApplication::factory()->create(
-            ['recruitment_id' => $recruitment]
+            ['recruitment_id' => $recruitment],
         );
 
         $user = $recruitmentApplication->application->user;
@@ -254,31 +260,33 @@ class PointCalculatorServiceTest extends TestCase
     }
 
 
-    private function createQualification(String $name, QualificationCategoryEnum $category, RequirementGroup $rqgroup, int $weight, bool $addRequirement = true):Qualification {
+    private function createQualification(String $name, QualificationCategoryEnum $category, RequirementGroup $rqgroup, int $weight, bool $addRequirement = true): Qualification
+    {
         $qualification = Qualification::factory()
             ->create([
                 'name' => $name,
-                'qualification_category_id' => $category->id()
-                ]);
+                'qualification_category_id' => $category->id(),
+            ]);
 
         //create corresponding requirement
-        if($addRequirement) {
+        if ($addRequirement) {
             RequirementGroupQualification::factory()
-            ->create([
-                'requirement_group_id' => $rqgroup,
-                'qualification_id' => $qualification,
-                'weight' => $weight
-            ]);
+                ->create([
+                    'requirement_group_id' => $rqgroup,
+                    'qualification_id' => $qualification,
+                    'weight' => $weight,
+                ]);
         }
-        return $qualification; 
-   }
+        return $qualification;
+    }
 
-   private function addScore(UserCertificate $cert, Qualification $qualification, int $score) {
-    QualificationScore::factory()
-        ->for($cert)
-        ->create([
-            'qualification_id' => $qualification,
-            'value' => $score
+    private function addScore(UserCertificate $cert, Qualification $qualification, int $score): void
+    {
+        QualificationScore::factory()
+            ->for($cert)
+            ->create([
+                'qualification_id' => $qualification,
+                'value' => $score,
             ]);
-   }
+    }
 }

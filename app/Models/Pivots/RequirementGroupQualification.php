@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models\Pivots;
 
-use Database\Factories\RequirementGroupQualificationFactory;
 use App\Models\Qualification;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\RequirementGroup;
+use Database\Factories\RequirementGroupQualificationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 

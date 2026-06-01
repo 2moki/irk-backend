@@ -9,10 +9,10 @@ Route::get('/', [RecruitmentApplicationController::class, 'index'])->name('index
 
 Route::get(
     '/{recruitmentApplication}',
-    [RecruitmentApplicationController::class, 'show']
+    [RecruitmentApplicationController::class, 'show'],
 )->name('show');
 
 Route::delete(
     '/{recruitmentApplication}',
-    [RecruitmentApplicationController::class, 'destroy']
+    [RecruitmentApplicationController::class, 'destroy'],
 )->name('destroy');

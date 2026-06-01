@@ -12,6 +12,7 @@ use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,7 +23,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Database\Eloquent\Builder;
 
 #[Fillable([
     'first_name',
@@ -116,6 +116,12 @@ class User extends Authenticatable implements HasName, FilamentUser
     {
         return $this->hasMany(UserCertificate::class);
     }
+    public function scopeCandidates(Builder $query): Builder
+    {
+        return $query->whereHas('roles', function ($q): void {
+            $q->where('name', 'candidate');
+        });
+    }
 
     /**
      * Akcesor dla czytelnego imienia i nazwiska.
@@ -140,11 +146,5 @@ class User extends Authenticatable implements HasName, FilamentUser
             'password' => 'hashed',
             'gender' => Gender::class,
         ];
-    }
-    public function scopeCandidates(Builder $query): Builder
-    {
-        return $query->whereHas('roles', function ($q) {
-            $q->where('name', 'candidate');
-        });
     }
 }
