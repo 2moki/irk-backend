@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\JsonResponse;
 
 class RecruitmentApplicationController extends Controller
 {
@@ -35,15 +36,28 @@ class RecruitmentApplicationController extends Controller
     }
 
     public function show(RecruitmentApplication $recruitmentApplication): Response
-    {
-        $this->authorize('view', $recruitmentApplication);
+{
+    $this->authorize('view', $recruitmentApplication);
 
-        $recruitmentApplication = QueryBuilder::for(
-            RecruitmentApplication::where('id', $recruitmentApplication->id),
-        )
-            ->allowedIncludes('recruitment', 'application', 'recruitment.academicYear', 'languages')
-            ->firstOrFail();
+    $recruitmentApplication = QueryBuilder::for(
+        RecruitmentApplication::where('id', $recruitmentApplication->id),
+    )
+        ->allowedIncludes('recruitment', 'application', 'recruitment.academicYear', 'languages')
+        ->firstOrFail();
 
-        return response()->json(RecruitmentApplicationResource::make($recruitmentApplication));
-    }
+    return response()->json(
+        RecruitmentApplicationResource::make($recruitmentApplication),
+    );
+}
+
+public function destroy(RecruitmentApplication $recruitmentApplication): JsonResponse
+{
+    $this->authorize('delete', $recruitmentApplication);
+
+    $recruitmentApplication->delete();
+
+    return response()->json([
+        'message' => 'Recruitment application deleted.',
+    ]);
+}
 }
