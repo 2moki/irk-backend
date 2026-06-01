@@ -22,12 +22,12 @@ class QualificationSeeder extends Seeder
             'Język hiszpański',
             'Język niemiecki',
             'Język rosyjski',
-            'Język włoski'
+            'Język włoski',
         ];
         foreach ($exams as $exam) {
             $qualification = Qualification::create([
                 'name' => $exam,
-                'qualification_category_id' => QualificationCategoryEnum::MATURA_GRADE->id()
+                'qualification_category_id' => QualificationCategoryEnum::MATURA_GRADE->id(),
             ]);
         }
     }

@@ -28,13 +28,13 @@ enum ExamTypeEnum: string
     /**Id of exam type*/
     public function id(): int
     {
-        return match($this) {
+        return match ($this) {
             self::NEW_MATURA => 1,
             self::OLD_MATURA_PRE_1991 => 2,
             self::OLD_MATURA_POST_1991 => 3,
             self::INTERNATIONAL_BACCALAUREATE => 4,
             self::EUROPEAN_BACCALAUREATE => 5,
-            self::FOREIGN => 6
+            self::FOREIGN => 6,
         };
     }
 }

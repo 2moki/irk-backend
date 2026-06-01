@@ -16,4 +16,7 @@ enum PermissionType: string
 
     case MAJOR_ACCESS = 'major_access';
     case MAJOR_MANAGE = 'major_manage';
+
+    case LANGUAGE_ACCESS = 'language_access';
+    case LANGUAGE_MANAGE = 'language_manage';
 }

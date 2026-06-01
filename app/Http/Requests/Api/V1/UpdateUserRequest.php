@@ -35,23 +35,40 @@ class UpdateUserRequest extends FormRequest
 
             'gender' => ['sometimes', Rule::in(['male', 'female', 'other'])],
 
-            // 🔥 NAJWAŻNIEJSZE
-            'address' => ['nullable', 'array'],
+            // 1. ADRES GŁÓWNY (Struktura płaska)
+            'street' => ['nullable', 'string', 'max:255'],
+            'house_number' => ['nullable', 'string', 'max:50'],
+            'apartment_number' => ['nullable', 'string', 'max:50'],
+            'city' => ['nullable', 'string', 'max:100'],
+            'post_code' => ['nullable', 'string', 'max:20'],
+            'post_office' => ['nullable', 'string', 'max:100'],
+            'country_id' => ['nullable', 'integer', 'exists:countries,id'],
 
-            'address.street' => ['nullable', 'string'],
-            'address.house_number' => ['nullable', 'string'],
-            'address.apartment_number' => ['nullable', 'string'],
-            'address.city' => ['nullable', 'string'],
-            'address.post_code' => ['nullable', 'string'],
-            'address.country_id' => ['nullable', 'integer', 'exists:countries,id'],
+            'has_correspondence' => ['sometimes', 'boolean'],
+
+            // 2. ADRES KORESPONDENCYJNY (Struktura zagnieżdżona)
+            'mailing_address' => ['nullable', 'array'],
+            'mailing_address.street' => ['required_if:has_correspondence,true', 'nullable', 'string', 'max:255'],
+            'mailing_address.house_number' => ['required_if:has_correspondence,true', 'nullable', 'string', 'max:50'],
+            'mailing_address.apartment_number' => ['nullable', 'string', 'max:50'],
+            'mailing_address.city' => ['required_if:has_correspondence,true', 'nullable', 'string', 'max:100'],
+            'mailing_address.post_code' => ['required_if:has_correspondence,true', 'nullable', 'string', 'max:20'],
+            'mailing_address.post_office' => ['required_if:has_correspondence,true', 'nullable', 'string', 'max:100'],
+            'mailing_address.country_id' => ['required_if:has_correspondence,true', 'nullable', 'integer', 'exists:countries,id'],
         ];
     }
+
     public function messages(): array
     {
         return [
-            'address.post_code.regex' => 'Kod pocztowy musi mieć format XX-XXX',
             'phone_prefix.regex' => 'Prefix musi być w formacie +48',
             'phone_number.regex' => 'Numer telefonu jest niepoprawny',
+            'mailing_address.street.required_if' => 'Ulica korespondencyjna jest wymagana.',
+            'mailing_address.house_number.required_if' => 'Numer domu korespondencyjnego jest wymagany.',
+            'mailing_address.city.required_if' => 'Miasto korespondencyjne jest wymagane.',
+            'mailing_address.post_code.required_if' => 'Kod pocztowy korespondencyjny jest wymagany.',
+            'mailing_address.post_office.required_if' => 'Placówka pocztowa korespondencyjna jest wymagana.',
+            'mailing_address.country_id.required_if' => 'Kraj korespondencyjny jest wymagany.',
         ];
     }
 }

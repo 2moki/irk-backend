@@ -27,7 +27,7 @@ enum QualificationCategoryEnum: string
     /**Id of qualification type*/
     public function id(): int
     {
-        return match($this) {
+        return match ($this) {
             self::SCHOOL_GRADE => 1,
             self::MATURA_GRADE => 2,
             self::MATURA_EXT_GRADE => 3,
