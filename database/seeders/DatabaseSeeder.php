@@ -30,8 +30,10 @@ class DatabaseSeeder extends Seeder
             GradeMappingSeeder::class,
             GradeSeeder::class,
             AcademicYearSeeder::class,
+            //Next three positions have fixed order
             QualificationCategorySeeder::class,
             QualificationSeeder::class,
+            QualificationScoreSeeder::class,
 
             MajorSeeder::class,
             RecruitmentSeeder::class,
