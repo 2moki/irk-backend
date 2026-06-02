@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\Feature;
 
 use App\Enums\QualificationCategoryEnum;
@@ -14,10 +12,8 @@ use App\Models\RequirementGroup;
 use App\Models\UserCertificate;
 use App\Services\PointCalculatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
-use function PHPUnit\Framework\assertEquals;
-
 use Tests\TestCase;
+use function PHPUnit\Framework\assertEquals;
 
 class PointCalculatorServiceTest extends TestCase
 {
