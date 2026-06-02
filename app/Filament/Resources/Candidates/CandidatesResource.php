@@ -6,7 +6,6 @@ namespace App\Filament\Resources\Candidates;
 
 use App\Filament\Resources\Candidates\Pages\ListCandidates;
 use App\Filament\Resources\Candidates\Pages\ViewCandidates;
-use App\Filament\Resources\Candidates\RelationManagers\ApplicationsRelationManager;
 use App\Models\User;
 use BackedEnum;
 use Filament\Actions\ViewAction;
@@ -14,12 +13,13 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
-// Oficjalne importy dla architektury Filament v5 Schema
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+
+// Oficjalne importy dla architektury Filament v5 Schema
 
 class CandidatesResource extends Resource
 {
