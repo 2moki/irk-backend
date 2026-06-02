@@ -11,6 +11,7 @@
 - [Panel administratora (FilamentPHP)](#panel-administratora-filamentphp)
 - [Jakość kodu](#jakość-kodu)
 - [Debugowanie i monitoring](#debugowanie-i-monitoring)
+- [XDebug i pokrycie testów](#xdebug-i-pokrycie-testów)
 - [Zabezpieczenie Model::shouldBeStrict()](#zabezpieczenie-modelshouldbestrict)
 - [Konwencja commitów](#konwencja-commitów)
 
@@ -299,6 +300,39 @@ MAIL_PORT=1025
 ```
 
 ![Mailpit](https://i.imgur.com/u4t7jsW.png)
+
+<br>
+
+## XDebug i pokrycie testów
+
+W celu uzyskania dostępu do XDebug konieczne jest przebudowanie obrazów docker.
+
+```bash
+# Jeśli kontener jest obecnie uruchomiony
+./vendor/bin/sail down
+
+# Uruchomienie budowy obrazu
+./vendor/bin/sail build --no-cache
+```
+
+Konieczne jest także dodanie poniższej linii w pliku `.env`.
+
+```
+SAIL_XDEBUG_MODE=develop,debug,coverage
+```
+
+Uruchomienie analizy pokrycia testów:
+
+```bash
+# Konieczne jest przejście do powłoki kontenera, ponieważ to tam jest zainstalowany XDebug
+./vendor/bin/sail shell
+
+# W celu uruchomienia analizy konieczne jest, aby wszystkie testy przeszły
+./vendor/bin/pest --coverage
+```
+
+PHPStorm oferuje możliwość połączenia z XDebug, umożliwiając tym samym korzystanie z debuggera wbudowanego w IDE.
+- Szczegóły: https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html
 
 <br>
 
