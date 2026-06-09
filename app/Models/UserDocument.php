@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'file_path',
     'file_name',
     'document_status',
+    'rejection_reason',
 ])]
 class UserDocument extends Model
 {
