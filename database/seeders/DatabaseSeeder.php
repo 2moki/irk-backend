@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             RecruitmentApplicationSeeder::class,
 
             UserCertificateSeeder::class,
+            UserDocumentSeeder::class,
         ]);
     }
 }
