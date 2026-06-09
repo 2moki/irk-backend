@@ -9,11 +9,15 @@ use App\Filament\Exports\RecruitmentApplicationExport;
 use App\Models\Major;
 use App\Models\Pivots\RecruitmentApplication;
 use App\Models\Recruitment;
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\Select;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -88,7 +92,7 @@ class RecruitmentApplicationsTable
 
                 Group::make('recruitment.academicYear.start_year')
                     ->label(trans_choice('Academic year', 1))
-                    ->orderQueryUsing(fn(Builder $query): Builder => $query->orderByDesc(
+                    ->orderQueryUsing(fn (Builder $query): Builder => $query->orderByDesc(
                         Recruitment::select('academic_years.start_year')
                             ->join('academic_years', 'academic_years.id', '=', 'recruitments.academic_year_id')
                             ->whereColumn('recruitments.id', 'recruitment_application.recruitment_id'),
@@ -100,7 +104,7 @@ class RecruitmentApplicationsTable
                     ->relationship(
                         name: 'recruitment.academicYear',
                         titleAttribute: 'start_year',
-                        modifyQueryUsing: fn(Builder $query): Builder => $query->orderByDesc('start_year')->limit(5),
+                        modifyQueryUsing: fn (Builder $query): Builder => $query->orderByDesc('start_year')->limit(5),
                     )
                     ->searchable()
                     ->preload()
@@ -111,9 +115,9 @@ class RecruitmentApplicationsTable
                     ->relationship(
                         name: 'recruitment.major',
                         titleAttribute: 'name',
-                        modifyQueryUsing: fn(Builder $query): Builder => $query->with(['studyLevel', 'studyMode'])->limit(5),
+                        modifyQueryUsing: fn (Builder $query): Builder => $query->with(['studyLevel', 'studyMode'])->limit(5),
                     )
-                    ->getOptionLabelFromRecordUsing(fn(Major $major): string => "{$major->name} ({$major->studyLevel->name}) - {$major->studyMode->name}")
+                    ->getOptionLabelFromRecordUsing(fn (Major $major): string => "{$major->name} ({$major->studyLevel->name}) - {$major->studyMode->name}")
                     ->searchable()
                     ->preload()
                     ->native(false),
@@ -123,7 +127,7 @@ class RecruitmentApplicationsTable
                     ->relationship(
                         name: 'recruitment.major.studyMode',
                         titleAttribute: 'name',
-                        modifyQueryUsing: fn(Builder $query): Builder => $query->limit(5),
+                        modifyQueryUsing: fn (Builder $query): Builder => $query->limit(5),
                     )
                     ->searchable()
                     ->preload()
@@ -139,7 +143,28 @@ class RecruitmentApplicationsTable
                     ->native(false),
             ])
             ->recordActions([
-                ViewAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    Action::make('change_status')
+                        ->label('Zmień status')
+                        ->icon('heroicon-o-arrow-path')
+                        ->form([
+                            Select::make('application_status')
+                                ->label(trans_choice('Application status', 1))
+                                ->options(ApplicationStatus::class)
+                                ->required()
+                                ->default(fn (RecruitmentApplication $record): ?string => $record->application_status?->value),
+                        ])
+                        ->action(function (RecruitmentApplication $record, array $data): void {
+                            $record->update([
+                                'application_status' => $data['application_status'],
+                            ]);
+                            Notification::make()
+                                ->title('Status został zmieniony')
+                                ->success()
+                                ->send();
+                        }),
+                ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

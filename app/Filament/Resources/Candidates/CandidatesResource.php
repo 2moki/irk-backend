@@ -166,6 +166,7 @@ class CandidatesResource extends Resource
         return [
             // Podpięcie Relation Managera pod spód widoku kandydata
             ApplicationsRelationManager::class,
+            DocumentsRelationManager::class,
         ];
     }
 
