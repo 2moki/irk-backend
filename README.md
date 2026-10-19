@@ -76,7 +76,7 @@ composer install
 ./vendor/bin/sail artisan key:generate
 
 # Uruchomienie migracji bazy danych wraz z przykładowymi danymi (Seed)
-./vendor/bin/sail artisan migrate --seed
+./vendor/bin/sail artisan migrate:fresh --seed
 ```
 
 #### Alias do komendy ./vendor/bin/sail (opcjonalne)
