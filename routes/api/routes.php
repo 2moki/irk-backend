@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\RoutePath;
+use App\Http\Controllers\Api\V1\DocumentsController;
 
 Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:')->group(function (): void {
     Route::prefix('countries')
@@ -23,12 +24,25 @@ Route::middleware(['throttle:api', Localization::class])->prefix('v1')->as('v1:'
         ->as('voivodeships:')
         ->group(base_path('routes/api/v1/voivodeships.php'));
 
+    Route::middleware(['signed'])->prefix('documents')->as('documents:')->group(function () : void {
+        Route::get('/{document}/full', [DocumentsController::class, 'full'])
+            ->name('full');
+        Route::get('/{document}/thumbnail', [DocumentsController::class, 'thumbnail'])
+            ->name('thumbnail');
+    });
+    
     Route::middleware(['auth:sanctum'])->group(function (): void {
         Route::get('user', fn(Request $request) => UserResource::make($request->user()))->name('user');
         Route::put('/user', [UserController::class, 'update']);
         Route::get('/application', [ApplicationController::class, 'show']);
         Route::put('/application', [ApplicationController::class, 'update']);
-
+        Route::prefix('documents')->group(function () {
+            //Dokument dowolnego typu
+            Route::post('/', [DocumentsController::class, 'store']);
+            //Lista z miniaturkami danego typu
+            Route::get('/', [DocumentsController::class, 'all'])
+                ->name('v1:documents:all');
+        });
         Route::prefix('recruitments')
             ->as('recruitments:')
             ->group(base_path('routes/api/v1/recruitments.php'));
