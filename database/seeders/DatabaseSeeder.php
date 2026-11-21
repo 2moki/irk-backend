@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
 
             UserCertificateSeeder::class,
             DocumentTypeSeeder::class
+            UserDocumentSeeder::class,
         ]);
     }
 }

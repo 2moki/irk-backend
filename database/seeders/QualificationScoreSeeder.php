@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\UserCertificate;
 use App\Models\Qualification;
 use App\Models\QualificationScore;
+use App\Models\UserCertificate;
+use Illuminate\Database\Seeder;
 
 class QualificationScoreSeeder extends Seeder
 {

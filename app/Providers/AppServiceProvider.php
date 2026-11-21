@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\Pivots\RecruitmentApplication;
+use App\Observers\RecruitmentApplicationObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\TelescopeServiceProvider;
@@ -27,5 +29,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::shouldBeStrict();
+
+        // Pivot models nie uruchamiają observerów automatycznie — wymagana ręczna rejestracja.
+        RecruitmentApplication::observe(RecruitmentApplicationObserver::class);
     }
 }

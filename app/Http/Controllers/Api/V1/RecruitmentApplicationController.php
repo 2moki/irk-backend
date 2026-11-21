@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\RecruitmentApplicationResource;
 use App\Models\Pivots\RecruitmentApplication;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -44,6 +45,19 @@ class RecruitmentApplicationController extends Controller
             ->allowedIncludes('recruitment', 'application', 'recruitment.academicYear', 'languages')
             ->firstOrFail();
 
-        return response()->json(RecruitmentApplicationResource::make($recruitmentApplication));
+        return response()->json(
+            RecruitmentApplicationResource::make($recruitmentApplication),
+        );
+    }
+
+    public function destroy(RecruitmentApplication $recruitmentApplication): JsonResponse
+    {
+        $this->authorize('delete', $recruitmentApplication);
+
+        $recruitmentApplication->delete();
+
+        return response()->json([
+            'message' => 'Recruitment application deleted.',
+        ]);
     }
 }
