@@ -75,8 +75,8 @@ class DocumentsController extends Controller
     }
 
     public function full(UserDocument $document) : Response {
-        $dir = storage_path('app/private/' . self::DOCUMENT_DIRECTORY . '/');
-        $path = "$dir/$document->file_name";
+        $dir = storage_path('app/private/' . self::DOCUMENT_DIRECTORY);
+        $path = "$dir/$document->file_name.webp";
 
         abort_unless(Storage::disk('local')->exists($path), 404);
 
@@ -85,12 +85,12 @@ class DocumentsController extends Controller
     }
 
     public function thumbnail(UserDocument $document) : Response {
-        $dir = storage_path('app/private/' . self::THUMBNAIL_DIRECTORY . '/');
-        $path = "$dir/$document->file_name";
+        $dir = storage_path('app/private/' . self::THUMBNAIL_DIRECTORY);
+        $path = "$dir/$document->file_name.webp";
 
-        abort_unless(Storage::disk('local')->exists($path), 404);
+        // abort_unless(Storage::disk('local')->exists($path), 404, $path);
 
         $disk = Storage::disk('local');
-        return response()->file($disk->path($path));
+        return response()->file($path);
     }
 }
